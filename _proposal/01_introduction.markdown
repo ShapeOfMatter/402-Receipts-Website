@@ -16,7 +16,6 @@ documentation_order: 1
 
 ## How to help
 This website is on [GitHub](https://github.com/ShapeOfMatter/direct-monetization-static); pull requests are welcome. You can also email us with questions or suggestions at <dmn@directmonetization.network>.
-We'll move to our own website an domain as soon as we're sure we have a good name.
 
 ## The name
 The 402 HTTPS response code implies that a request is being denied because payment must be provided for the requested resource. [No standard way of following up to a 402 response has been normalized](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#402). The 402 response code has seen only niche usage, mostly for subscription-only APIs, and is effectively non-standard for human-facing HTTPS resources. This standard will fix that.
