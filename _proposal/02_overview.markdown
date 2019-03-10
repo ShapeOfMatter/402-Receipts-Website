@@ -15,7 +15,7 @@ Although this standard will focus on HTTPS exchanges; it's desirable that the fr
 
 ## How do you, an end-user, use this?
 
-> #### TLDR:  
+> #### The very short version:  
 > You'll sign into an account in a network and, as you browse the web, sites in that network will automatically charge you small amounts for each page you access. You're protected from fraud and abuse by the network, while the websites get a strong, unobtrusive paywall.
 
 In order to participate, you'll need to create an account with at least one {% include link s=site.data.glossary.notary %}. You'll need your web-browser to be logged into some sort of {% include link s=site.data.glossary.wallet %}; this will probably be a browser plugin, but we want to have javascript/cookie based options too. The wallet is the only part of the system that both knows who you are _and_ what you're doing.  
