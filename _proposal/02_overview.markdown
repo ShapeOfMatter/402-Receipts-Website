@@ -9,11 +9,14 @@ summary: An overall summary of how the system works.
 
 We propose a suite of HTTPS headers, HTML head elements, and surrounding utilities to make direct monetization of web-accessible resources low-stress and safe even for non-specialist human users.
 
-By design, this standard covers use-cases in which a 402 response would never actually be sent. In particular, we anticipate a tip-jar configuration in which no payment is _required_ to access the resource, but a clear means of making optional payments is exposed to the client along with explicit expectations about what they _should_ pay. Throughout this document we will talk interchangeably about "requiring" or "accepting" receipts. The actual behavior gets specified in the Receipt Definition.
+This standard also covers use-cases in which a 402 response would never actually be sent. In particular, we anticipate a tip-jar configuration in which no payment is _required_ to access the resource, but a clear means of making optional payments is exposed to the client along with explicit expectations about what they _should_ pay. Throughout this document we will talk interchangeably about "requiring" or "accepting" receipts. The actual behavior gets specified in the {% include link s=site.data.glossary.receipt_definition %}.
 
 Although this standard will focus on HTTPS exchanges; it's desirable that the framework translate clearly to other internet communications. 
 
 ## How do you, an end-user, use this?
+
+> ### TLDR:  
+> You'll sign into an account in a network and, as you browse the web, sites in that network will automatically charge small amounts for each page you access. You're protected from fraud and abuse by the network, while the websites get a strong, unobtrusive paywall.
 
 In order to participate, you'll need to create an account with at least one {% include link s=site.data.glossary.notary %}. You'll need your web-browser to be logged into some sort of {% include link s=site.data.glossary.wallet %}; this will probably be a browser plugin, but we want to have javascript-cookie based options too. The wallet is the only part of the system that both knows who you are _and_ what you're doing.  
 If you aren't logged in properly, you may see prompts or placeholders as you browse the web.
