@@ -27,3 +27,4 @@ The 402 HTTPS response code implies that a request is being denied because payme
   - [{{ p.title }}]({{ p.url }}) — {{ p.summary }}
 {% endif %}{% endfor %}
 
+<a rel="me" href="https://mastodon.technology/@DMN"> </a>
