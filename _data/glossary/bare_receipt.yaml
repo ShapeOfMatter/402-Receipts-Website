@@ -1,0 +1,5 @@
+subject: Receipt Definition
+path: /xml.html#glossary_receipt_definition
+meaning: |
+  A Receipt Definition is an XML object which tells a Client what receipts would be accepted in order to access the relevant resource.
+
