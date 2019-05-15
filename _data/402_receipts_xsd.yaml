@@ -112,3 +112,12 @@ types:
 - name: plan
   documentation: "An identifier which is assumed to mean something to the various parties involved."
   base: string
+- name: time
+  documentation: 'A unix timestamp as an integer representing seconds.'
+  base: unsignedInt
+- name: uuid
+  documentation: 'An ID for a Bare-Receipt. This may be used to prevent reuse of a receipt by multiple parties (with caveats). Use of values other than properly-generated V4 UUIDs is unsafe.'
+  base: string
+  restrictions:
+  - kind: pattern
+    value: "\{?([0-9a-fA-F]{4}-?){8}\}?"
