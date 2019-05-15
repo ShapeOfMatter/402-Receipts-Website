@@ -1,0 +1,7 @@
+wallet:
+  subject: Wallet
+  path: /parties.html#glossary_wallet
+  meaning: |
+    A wallet is a (presumably encrypted, etc) storage location separate from the Client where receipts owned by a user can be stored for reuse.
+    This is necessary specifically because users will want to reuse receipts across devices.
+

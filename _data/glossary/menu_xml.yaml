@@ -1,0 +1,8 @@
+menu_xml:
+  subject: menu.xml
+  path: /xml.html#glossary_menu_xml
+  meaning: |
+    A menu.xml lists resources (possibly HTML pages, but more frequently images or snippets) for which Receipts are accepted or required. 
+    While browsing within the scope of a menu.xml, no resources should be needed that require receipts except as specified in that menu.  
+    For many websites it will be feasible to have a single menu who's scope is the entire website.
+

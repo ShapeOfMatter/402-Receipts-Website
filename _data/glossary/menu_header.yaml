@@ -1,0 +1,19 @@
+menu_header:
+  subject: Receipts-Menu Header
+  path: /http.html#glossary_menu_header
+  meaning: |
+    A `Receipts-Menu` header should be included with any page that uses resources for which receipts will be required,
+    so that the Client will know what Receipts to get _before_ requesting those resources.
+    A menu header will contain a single absolute url to a [menu.xml](xml.html#glossary_menu_xml) file which contains the current page or resource in its scope.
+    Any page or resource _may_ be served with a menu header. For some applications it may make sense to always give a single value for every request.
+    An empty menu header will be treated the same way as no header at all.
+    
+    There are two equivalent ways of representing a menu header. Only one should be used in any given response.
+    In many cases it will be sufficient to include an HTML `<meta>` tag. The `Receipts-Menu` HTTP header is equivalent and can be used with non-HTML resources.
+    ```html
+    <meta property="receipts:menu" content="https://www.example.com/menu.xml" />
+    ```
+    ```text
+    Receipts-Menu: https://www.example.com/menu.xml
+    ```
+

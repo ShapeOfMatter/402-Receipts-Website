@@ -30,7 +30,7 @@ accepts_header:
     The `Receipts-Accepts` response header value is a [compressed](/compression.html) [Receipt Definition XML object](/xml.html#glossary_receipt_definition).
     The response to a request for a resource for which receipts are accepted must always have a `Receipts-Accepts` header
     if the response represents success (a 2** response) or any receipt- or payment-related failure (including a 402 response).
-    In practice it's advisable for the `Receipts-Accepts` header to be constant for a given resource regardless of the rest of the details of the response.
+    In pratice it's advisable for the `Receipts-Accepts` header to be constant for a given resource regardless of the rest of the details of the response.
 receipt_definition:
   subject: Receipt Definition
   path: /xml.html#glossary_receipt_definition

@@ -1,0 +1,13 @@
+client:
+  subject: Client
+  path: /parties.html#glossary_client
+  meaning: |
+    The Client is an HTTPS client requesting a resource for which a receipt is required. 
+    Typically the Client will be a web browser being used by a human to view websites.
+    
+    It needs to detect references to [menu.xml](/http.html#glossary_menu_header) files and parse them
+    so that it can obtain receipts to include with reqests _on the first try_.
+    
+    It needs to compose the [Bare Receipt](/receipts.html) and communicate with the [Notary](/notary.html#glossary_notary) to get it signed.
+    Finally, it will include the Receipt in the Header of the HTTPS request.
+
