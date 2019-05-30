@@ -8,7 +8,7 @@ meaning: |
   `signer` and `cost` represent which of the options described in the Receipt Definition this receipt is intended to match.
   
   The Bare Receipt must be parseable (and presumably will be parsed) as a `<barereceipt>` as [described in the schema](TODO),
-  but it should be stored and transmitted a string, which should be used verbatim instead of rebuilding it from any derived data-structure.
+  but it should be stored and transmitted as a byte-string, and used verbatim instead of rebuilding it from any derived data-structure.
   Otherwise it might result in different hash values for different parties.
 
   > #### UUID Details<a name="uuid-implementation-details"></a>
