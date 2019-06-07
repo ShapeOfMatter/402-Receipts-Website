@@ -41,11 +41,6 @@ This must be [compressed]({{ "/compression.html" | relative_url }}) to be used i
 Receipts-Accepts: eNpVkFFugzAQRP97CpQDeBFqWqna+qPKDdoewCIbsIrXFrsROX4MhpD6a954PFovnuni2auPLNUtDCyfh141yQfAa92Yn6/Twb5UFe65GWcjBufZbuFpmgzdXEgDmTYGQFgDJe2VgoXktAcfXEcmcYewuCUgvmMapdCDH/UjteSTijkHNkw6xfFvqUNYk6UG/vWg6mCb96bOB2GGYl9Gkt6+Za+o4rZRdB9gpg0yXvPnxf5+nxCK3K9ciFdWW5v6iLDC1gJ7TdHLw7ycp3U+k9g7Cyp50Q==
 ```
 
-We provide two example {% include link s=site.data.glossary.menu_xml %} files. These links go directly to the xml files.
-
-- [/menu_example_small.xml](/menu_example_small.xml)
-- [/menu_example_large.xml](/menu_example_large.xml) (Also shows a broader variety of Receipt Definitions)
-
 ## Schema
 [The XSD itself is here.]({{ "/402receipts.xsd" | absolute_url }})
 
