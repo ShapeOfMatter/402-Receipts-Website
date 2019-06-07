@@ -1,0 +1,5 @@
+subject: Receipts-Nextstamp Header
+path: /http.html#glossary_nextstamp_header
+meaning: |
+  An HTTPS response header providing a single-use token which the Client will include in a subsequent submissions of the receipt in question. ...
+

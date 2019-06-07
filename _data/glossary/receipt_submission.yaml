@@ -3,15 +3,26 @@ path: /objects.html#glossary_receipt_submission
 meaning: |
   A receipt submission contains the Bare Receipt, Notary signature, 
   a time-of-use timestamp to be compared against the freshness requirement of the Receipt Definition,
-  and a useage-chain stamp, which will be empty if the receipt is being submitted for the first time.
-  It also includes the Client's signature of the receipt/time-of-use pair, and the public key needed to check that signature. This public key is used by the Host as an identifier for the Client; the Client may reuse a key pair or not depending if they wish to be identifiable as the same user over time.
+  and a chained useage-token called the "nextstamp", which will be empty if the receipt is being submitted for the first time.
+  It also includes the Client's signature of the receipt, nextstamp, and time-of-use, and it includes the public key needed to check that signature.
+  This public key is used by the Host as an identifier for the Client;
+  the Client may reuse a key pair (or not) to the extent and in whatever circumstances they wish to be identifiable as the same user over time.
 
-  ## Bundled Receipts
-  In the case that the Client should have access because of previously submitted payments they have made _for other resources_, a list of the `uuid`s of those receipts may be used in place of the Signed Receipt in the Receipt Submission. The Host will typically enforce that the Client signature of such a receipt match the submission signatures of all the listed receipts.
+  In some cases the client will want to use a collection of multiple receipts (typically receipts they have used previously)
+  to claim access to a resource.
+  For example, a website might give Receipt Definitions to the effect of _"Pages are \$0.05 each, up to \$3.00/month."_.
+  Once a customer had viewed enough pages that their receipts for that month totaled \$3.00,
+  their Client would begin submitting those existing receipts as a bundle instead of buying a receipt for each page.
 
-  For example, a website might give Receipt Definitions to the effect of _"Pages are \$0.05 each, up to \$3.00/month."_. Once a customer had viewed enough pages that their receipts for that month totaled \$3.00, their Client would begin submitting Bundled Receipts instead of buying a receipt for each page.
-  A Bare Receipt is a string containing an XML object describing payment made for a particular item at a particular time.
-  In general, values in a Bare Receipt will correspond to the respective fields in the Receipt Definition.
+  The use-signature is a conventional RSA signature, using SHA-512 hashing, of the concatination of
+  all the receipt UUIDs,
+  then all the nextstamps,
+  and finally the submission timestamp, all as utf-8.
+  The UUIDs should be in cannoical (hyphenated, lower-case) format, without curly braces.
+  `TODO: Define how the elements should be ordered.`
+
+  new vs old receipts....
+
 
 example: |
   ```xml
@@ -23,13 +34,13 @@ example: |
       <receiptsignature>
         3c626172657265636569707420786d6c6e733d2268747470733a2f2f3430322e544244223e0d0a20203ch
       </receiptsignature>
-      <stamp>kjsadflkjasdfljsadfsaldfkjlkajskdf</stamp>
-      <usesignature>
-        1235516849846513213215468465132135165498498496515321635819849h
-      </usesignature>
+      <usestamp>kjsadflkjasdfljsadfsaldfkjlkajskdf</usestamp>
     </submission>
   </submissions>
   <submitted>1557944099</submitted>
+  <usesignature>
+    1235516849846513213215468465132135165498498496515321635819849h
+  </usesignature>
   <user>
     ---PEM KEY---
     asdf;lkjasdfl;kjasdlkjfa
