@@ -1,7 +1,9 @@
-subject: Receipt Submission
+subject: Receipts-Submission Header
 path: /objects.html#glossary_receipt_submission
 meaning: |
-  A receipt submission contains the Bare Receipt, Notary signature, 
+  The `Receipts-Submission` HTTP Request header will contain a compressed `<submissions>` xml object.
+  
+  A receipt submission contains the Bare Receipt string, Notary signature, 
   a time-of-use timestamp to be compared against the freshness requirement of the Receipt Definition,
   and a chained useage-token called the "nextstamp", which will be empty if the receipt is being submitted for the first time.
   It also includes the Client's signature of the receipt, nextstamp, and time-of-use, and it includes the public key needed to check that signature.
@@ -13,6 +15,7 @@ meaning: |
   For example, a website might give Receipt Definitions to the effect of _"Pages are \$0.05 each, up to \$3.00/month."_.
   Once a customer had viewed enough pages that their receipts for that month totaled \$3.00,
   their Client would begin submitting those existing receipts as a bundle instead of buying a receipt for each page.
+  In order to do this, all of the Receipts in question must already be associated with a common `<usesignature>` public key.
 
   The use-signature is a conventional RSA signature, using SHA-512 hashing, of the concatination of
   all the receipt UUIDs,
@@ -21,8 +24,18 @@ meaning: |
   The UUIDs should be in cannoical (hyphenated, lower-case) format, without curly braces.
   `TODO: Define how the elements should be ordered.`
 
-  new vs old receipts....
+  If a Host is seeing a given receipt for the first time, it will need to verify the notary signature.
+  (Depending on performance considerations, they may or may not wish to do this every time. `TODO: explain how.`)
+  They should save the `<user>` public key so that they can confirm that subsequent submissions of that receipt are from the same person.
+  
+  When a Host recieves a receipt it _has_ seen before it will first verify the `<usesignature>`
+  using the public key with which the receipt was first submitted.
+  If this fails the submission should be rejected without side-effects.
+  Then the Host will verify that the `<usestamp>` matches the value assigned to that receipt by the previous
+  Receipts-Nextstamp response header. If they do not match then the host should reject the receipt submission and give a 498 response. 
 
+  When a Host accepts a receipt submission (new or a reuse)
+  it must set the Receipts-Nextstamp response header with a new value for a subsequent submission. 
 
 example: |
   ```xml
@@ -34,7 +47,7 @@ example: |
       <receiptsignature>
         3c626172657265636569707420786d6c6e733d2268747470733a2f2f3430322e544244223e0d0a20203ch
       </receiptsignature>
-      <usestamp>kjsadflkjasdfljsadfsaldfkjlkajskdf</usestamp>
+      <usestamp>fwoamt</usestamp>
     </submission>
   </submissions>
   <submitted>1557944099</submitted>

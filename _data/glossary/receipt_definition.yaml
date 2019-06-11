@@ -4,6 +4,7 @@ meaning: |
   A Receipt Definition is an XML object which tells a Client what receipts would be accepted in order to access the relevant resource.
   Receipt Definitions are both the values of the `Receipts-Accepts` HTTPS headers and are part of menu XML objects.
   All menu.xml files covering a given resource, and the `Receipts-Accepts` header for that resource, should give the same Receipt Definitions.
-  Receipt Definitions are covered in the same XSD name-space as a menu.xml.
   Note that the root of a Receipt Definition is a `definitions` element, which is a list of `definition`s.
-
+example: |
+  See the documentation for Accepts Headers and Menu XML.
+  

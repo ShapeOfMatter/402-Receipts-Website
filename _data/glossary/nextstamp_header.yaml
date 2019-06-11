@@ -1,5 +1,13 @@
 subject: Receipts-Nextstamp Header
 path: /http.html#glossary_nextstamp_header
 meaning: |
-  An HTTPS response header providing a single-use token which the Client will include in a subsequent submissions of the receipt in question. ...
+  The `Receipts-Nextstamp` HTTPS response header provides a single-use token
+  which the Client will include in a subsequent submission of the receipt(s) in question.
 
+  The nextstamp should be exactly six lowercase characters a-z. 
+
+  _Ownership_ of a receipt is established by signing each submission of a given receipt with a consistent private key,
+  however (because the `usesignature` keys are disposable) there's nothing to prevent users from sharing these keys as well as the receipts.
+  The purpose of the nexstamp/usestamp is to prevent sharing of receipts between consumers. The chaining of nextstamp/usestamp values
+  makes sharing of receipts _impractical_, and provides a mechanism to detect and invalidate receipts and keys that have been shared;
+  see the 498-Response.

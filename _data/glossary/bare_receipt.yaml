@@ -16,8 +16,6 @@ meaning: |
     Use of other UUID types may result in identifiers that are traceable back to the Client's computer, or may risk collisions.
     Uniqueness is only enforceable on the signer/domain/UUID _triplet_;
     the global uniqueness of UUID's can not be relied upon here because a malicious client could deliberately violate it.
-    Enforcing uniqueness across domains may be possible by the Notary, but this would require the Host to whom a domain is
-    registered to check with the Notary every time they receive a receipt in order to know if the receipt were valid.
 example: |
   ```xml
   <barereceipt xmlns="https://402.TBD">
