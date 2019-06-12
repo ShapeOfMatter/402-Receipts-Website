@@ -11,3 +11,8 @@ meaning: |
   The purpose of the nexstamp/usestamp is to prevent sharing of receipts between consumers. The chaining of nextstamp/usestamp values
   makes sharing of receipts _impractical_, and provides a mechanism to detect and invalidate receipts and keys that have been shared;
   see the 498-Response.
+
+example: |
+  ```text
+  Receipts-Nextstamp:  guddvl
+  ```

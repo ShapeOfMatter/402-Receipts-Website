@@ -1,0 +1,9 @@
+subject: '498 Response Code'
+path: /http.html#glossary_498_response
+meaning: |
+  A 498 HTTPS response indicates that the `usestamp` included in the receipt attached to the request
+  did not match the `Receipts-Nextstamp` header returned the _previous_ time that receipt was submitted. 
+  
+  The purpose of the nextstamp/usestamp is to prevent receipt-sharing.
+  As an enforcement mechanism, the Host may choose to flag its record of the receipt, and possibly any other receipts with the same public key,
+  as invalidated, i.e. to reject all future Receipt Submissions 

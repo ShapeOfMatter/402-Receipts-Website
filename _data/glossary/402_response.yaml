@@ -1,7 +1,7 @@
 subject: '402 Response Code'
 path: /http.html#glossary_402_response
 meaning: |
-  A 402 HTTP response indicates that the request should/may be retried with a (valid, applicable) receipt as described in the `Receipts-Accepts` header.
+  A 402 HTTPS response indicates that the request should/may be retried with a (valid, applicable) receipt as described in the `Receipts-Accepts` header.
   To the extent possible, 402 should be the “rejection of last resort” in the sense that a 402 response should not be given
   if the request would have failed for other reasons in addition to the absence of a suitable `Receipts-Submission` header.
   
