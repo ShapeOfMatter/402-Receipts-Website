@@ -10,8 +10,7 @@ summary: How receipts are composed, signed, used, and validated. (work in progre
 A receipt is a message specifying that someone paid for access to a resource, or should otherwise be given access to the resource.
 
 > #### There are some practical limitations of the readily available cryptographic options, which are unlikely to be fixed in time for version 0.
->
-> In particular, the client signature process reveals more information about the Client to the Host than may be strictly necessary, and the use of a _fully_ blind signature means that, in practice, a given Notary can only issue Receipts for a single amount.
+> In particular, the use of a _fully_ blind signature means that, in practice, a given Notary can only issue Receipts for a single amount.
 
 There are several objects nested inside each other that, in different circumstances, might each be called a receipt.
 
