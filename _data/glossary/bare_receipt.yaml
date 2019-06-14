@@ -8,7 +8,7 @@ meaning: |
   `signer` and `cost` represent which of the options described in the Receipt Definition this receipt is intended to match.
   
   The Bare Receipt must be parseable (and presumably will be parsed) as a `<barereceipt>` as [described in the schema](TODO),
-  but it should be stored and transmitted a string, which should be used verbatim instead of rebuilding it from any derived data-structure.
+  but it should be stored and transmitted as a byte-string, and used verbatim instead of rebuilding it from any derived data-structure.
   Otherwise it might result in different hash values for different parties.
 
   > #### UUID Details<a name="uuid-implementation-details"></a>
@@ -16,8 +16,6 @@ meaning: |
     Use of other UUID types may result in identifiers that are traceable back to the Client's computer, or may risk collisions.
     Uniqueness is only enforceable on the signer/domain/UUID _triplet_;
     the global uniqueness of UUID's can not be relied upon here because a malicious client could deliberately violate it.
-    Enforcing uniqueness across domains may be possible by the Notary, but this would require the Host to whom a domain is
-    registered to check with the Notary every time they receive a receipt in order to know if the receipt were valid.
 example: |
   ```xml
   <barereceipt xmlns="https://402.TBD">

@@ -7,4 +7,30 @@ meaning: |
   if the response represents success (a 2** response) or any receipt- or payment-related failure (including a 402 response).
   In practice it's advisable for the `Receipts-Accepts` header to be constant
   for a given resource regardless of the rest of the details of the response.
+example: |
+  ```text
+  Receipts-Accepts: eNpVkFFugzAQRP97CpQDeBFqWqna+qPKDdoewCIbsIrXFrsROX4MhpD6a954PFovnuni2auPLNUtDCyfh141yQfAa92Yn6/Twb5UFe65GWcjBufZbuFpmgzdXEgDmTYGQFgDJe2VgoXktAcfXEcmcYewuCUgvmMapdCDH/UjteSTijkHNkw6xfFvqUNYk6UG/vWg6mCb96bOB2GGYl9Gkt6+Za+o4rZRdB9gpg0yXvPnxf5+nxCK3K9ciFdWW5v6iLDC1gJ7TdHLw7ycp3U+k9g7Cyp50Q==
+  ```
+  This decompresses to the following xml:
+  ```xml
+  <definitions xmlns="https://402.TBD">
+    <definition>
+      <domain>https://www.example.com/</domain>
+      <item>/path/image.png</item>
+      <signers>
+        <signer>https://receipts.dmn.network/path</signer>
+      </signers>
+      <ttl>2720000</ttl>
+      <fresh>60</fresh>
+      <costs>
+        <cost>
+          <units>USD</units>
+          <amount>0.05</amount>
+        </cost>
+      </costs>
+    </definition>
+  </definitions>
+  ```
+
+
 
