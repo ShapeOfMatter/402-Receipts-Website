@@ -1,3 +1,5 @@
+{{ include }}
+
 {% unless include.s.path contains page.url %}<h2 style="color: red;">DEV WARNING MISPLACED GLOSSARY ITEM</h2>{% endunless %}
 <div class="glossary_item"{% unless include.suppress %} id="{{ include.s.path | split: "#" | last }}"{% endunless %}>
   <div class="glossary_header">Definition</div>
