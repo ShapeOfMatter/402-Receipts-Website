@@ -120,4 +120,4 @@ types:
   base: string
   restrictions:
   - kind: pattern
-    value: "\\{?([0-9a-fA-F]{4}-?){8}\\}?"
+    value: '\{?([0-9a-fA-F]{4}-?){8}\}?'
