@@ -9,14 +9,14 @@ summary: Describes the roles of the Client, the Host, and the Notary. Also outli
 ---
 
 ## The Client
-Because the 402-Receipts system is mostly passive from the perspective of the human user, we mostly speak in terms of the Client (the web-browser).  
+Because the 402-Receipts system is designed to be used passively by the human user, we mostly speak in terms of the Client (the web-browser).  
 {% include glossary_item s=site.data.glossary.client %}
 
 Existing web browsers don't have the behavior defined in this standard, so the user will need to install a browser plugin.
 
-Javascript included on pages served may be able to act as the Client; this would be good because it would be easier for some users.
-We need a clear idea of _how_ that can work, and how it can support the same privacy and trustworthiness guarantees
-before we can promise that it will be an option.
+> Javascript included on pages served may be able to act as the Client; this would be good because it would be easier for some users.
+> We need a clear idea of _how_ that can work, and how it can support the same privacy and trustworthiness guarantees
+> before we can promise that it will be an option.
 
 {% include glossary_item s=site.data.glossary.wallet %} 
 

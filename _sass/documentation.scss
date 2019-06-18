@@ -34,7 +34,7 @@ h4 {
 }
 
 p {
-  margin: 1em 0 0 0;
+  margin: 1em 0 1em 0;
   line-height: 1.3em;
 }
 
@@ -151,7 +151,7 @@ blockquote {
   border-left: solid $glossary-color 4px;
   margin: 1em 0em 1em 0px;
   padding: 5px 10px 10px 10px;
-  .glossary_header {
+  .glossary_header, .glossary_example {
     margin-left: -10px;
     padding: 5px 10px;
     background: $glossary-color;
@@ -159,6 +159,9 @@ blockquote {
     color: $glossary-text-color;
     -webkit-font-smoothing: antialiased;
     font-weight: bold;
+  }
+  .glossary_example {
+    font-size: 95%;
   }
   h4 {
     margin-top: 15px;

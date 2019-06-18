@@ -9,11 +9,12 @@ summary: An overall summary of how the system works.
 
 We propose a suite of HTTPS headers, HTML head elements, and surrounding utilities to make direct monetization of web-accessible resources low-stress and safe even for non-specialist human users.
 
-This standard also covers use-cases in which a 402 response would never actually be sent. In particular, we anticipate a tip-jar configuration in which no payment is _required_ to access the resource, but a clear means of making optional payments is exposed to the client along with explicit expectations about what they _should_ pay. Throughout this document we will talk interchangeably about "requiring" or "accepting" receipts. The actual behavior gets specified in the {% include link s=site.data.glossary.receipt_definition %}.
+Additionally, we anticipate a tip-jar configuration in which no payment is _required_ to access the resource, but a clear means of making optional payments is exposed to the client along with explicit expectations about what they _should_ pay. Throughout this document we will talk interchangeably about "requiring" or "accepting" receipts. The actual behavior gets specified in the {% include link s=site.data.glossary.receipt_definition %}.
 
 Although this standard will focus on HTTPS exchanges; it's desirable that the framework translate clearly to other internet communications. 
 
 ## How do you, an end-user, use this?
+
 
 > #### The very short version:  
 > You'll sign into an account in a network and, as you browse the web, sites in that network will automatically charge you small amounts for each page you access. You're protected from fraud and abuse by the network, while the websites get a strong, unobtrusive paywall.
@@ -26,7 +27,6 @@ As you browse the web, websites you visit will tell your web-browser how much th
 When you navigate to a page that costs money, if your wallet is configured to allow the transaction (based on the amount and any details about the website itself), then it will fetch a receipt for the needed amount from the Notary.
 This receipt is passed to the website, which then gives you access to the page or content in question. This happens in the background without you needing to do anything; as a human user you only need to worry about the payments system when you're configuring your accounts.
 
-  
 ### Context for a 402 response
 It's generally poor user experience to reject a web-page request outright. (A {% include link s=site.data.glossary.402_response c="402 Response" %} to such a request may work if a suitable placeholder page is available and the {% include link s=site.data.glossary.client %} is trusted to handle the response appropriately.)
 

@@ -4,7 +4,7 @@
   <h4><a href="{{ include.s.path | absolute_url }}" title="permalink to this definition">{{ include.s.subject }}</a></h4>
   {{ include.s.meaning | markdownify }}
   {% if include.s.example %}
-    <div class="glossary_header">Example</div>
+    <div class="glossary_example">Example</div>
     {{ include.s.example | markdownify }}
   {% endif %}
 </div>
