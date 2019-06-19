@@ -9,4 +9,5 @@ example: |
     <bare>string representation of the inner data object</bare>
     <signature>RSA signature of the SHA512 hash of the value in `data`</signature>
   </receipt>
-```
+  ```
+
