@@ -14,7 +14,6 @@ Additionally, the meaning of relevant HTTP Response codes is explained.
 
 **All requests and responses involved in this standard should be made over HTTPS connections with valid certificates.** Implementations are not obliged to accept receipts or other information transmitted over HTTP.
 
+{% include glossary_item s=site.data.glossary.402_response %}
 {% include glossary_item s=site.data.glossary.accepts_header %}
 {% include glossary_item s=site.data.glossary.receipt_header %}
-{% include glossary_item s=site.data.glossary.402_response %}
-
