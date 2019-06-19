@@ -1,4 +1,12 @@
 subject: Signed Receipt
 path: /objects.html#glossary_signed_receipt
 meaning: |
-  
+  A **Signed Receipt** is a Bare Receipt together with a signature from a Notary,
+  confirming that a Client has made the payments described in the contained Bare Receipt.
+example: |
+  ```xml
+  <receipt xmlns="https://www.TBD.com">
+    <bare>string representation of the inner data object</bare>
+    <signature>RSA signature of the SHA512 hash of the value in `data`</signature>
+  </receipt>
+```

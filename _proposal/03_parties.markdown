@@ -31,13 +31,11 @@ The Host is _not exactly just_ "the website", although this is an OK layperson's
 
 We assume that the Host's address will match the `domain` (and often `item`) of the Bare Receipt, and this may be enforced by the Client or Notary.
 
-Assuming we stick with a blind-signature scheme for [Receipts]({{ "/receipts.html" | relative_url }}), a truly static Host will not be able to use this standard.
+A fully static host will not be suitable for this standard because; validating and (at minimum) saving receipts for
+future reimbursement is critical to the process.
 At absolute minimum the host will need to be able to strip the identifying key and signature and forward the receipt and Notary signature to the Notary;
 otherwise the Notary would never know to pay the Host.  
 In practice, the Host should also be obliged to validate the receipt as part of request handling, and the Host **should not** forward the receipt until handling of the HTTPS request in question has finished. Submitting receipts to the Notary in batches (for example, every hour) can (in conjunction with some defensive behavior on the part of the Clients) prevent deanonymization of Receipts by timing analysis. 
-
-Furthermore, Hosts will generally need to maintain a database of receipts received which are still valid for reuse, along with the Client Key they were originally submitted with.
-This is needed to prevent sharing of receipts between consumers.
 
 ## The Notary
 The Notary is a third party, analogous to a traditional monetization platform but fundamentally less powerful. The Notary sells Receipts to Clients; the Receipts are used to access websites.

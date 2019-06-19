@@ -1,6 +1,8 @@
 subject: Bare Receipt
 path: /objects.html#glossary_bare_receipt
 meaning: |
+  A **Bare Receipt** _describes_ a particular payment for a particular resource.
+  
   A Bare Receipt is a string containing an XML object describing payment made for a particular item at a particular time.
   In general, values in a Bare Receipt will correspond to the respective fields in the Receipt Definition.
 
