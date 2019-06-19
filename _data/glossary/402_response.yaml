@@ -8,6 +8,4 @@ meaning: |
   A `Receipts-Accepts` header is mandatory for a 402 response.
   
   If a 402 response has a response body, that body should be used as a placeholder for the requested resource, and must be appropriate for such use.
-  If a 402 response has a `Link: <url>; rel=alternate` header, then it must specify a placeholder for the requested resource
-  and there should not be a body.
 

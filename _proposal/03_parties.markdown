@@ -60,5 +60,3 @@ Notaries with larger networks will obviously have an advantage toward attracting
 On the one hand, the variety of use-cases this standard can accommodate, and the variety of legal, technical, and business paradigms people operate in, will likely ensure a plurality of Notaries. On the other hand, it is still desirable to include protections _against the Notaries_. Consumers are presumed to have given their payment processing information (a debit card, for example) directly to the Notary, but privacy of their data can still be protected by insisting on a blind-signature scheme, and by proper design of Wallets and Clients. Producers (Hosts) can best be protected by making sure self-Notarization is a viable option (although this does put the onus of payment processing back in their lap).
 
 {% include glossary_item s=site.data.glossary.canonical_url %}
-
-
