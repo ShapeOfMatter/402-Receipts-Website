@@ -1,0 +1,57 @@
+namespace: "https://402.TBD"
+documentation: XML Schema for Receipt XML objects.
+root_elements:
+- name: receipts
+  documentation: The root element of an XML document containing a list of Receipts.
+types:
+- name: receipts
+  documentation: "A list of Receipts."
+  list:
+    name: receipt
+- name: receipt
+  documentation: "A Receipt object, denoting that someone has paid for access to an item of content or a family of content."
+  children:
+  - - name: domain
+    - name: item
+    - name: signer
+    - name: time
+    - name: cost
+    - name: uuid
+    - name: signature
+- name: domain
+  documentation: "Must match the `domain` from the Receipt Definition which this receipt is fulfilling."
+  base: string
+- name: item
+  documentation: "Must match the `item` from the Receipt Definition which this receipt is fulfilling."
+  base: string
+- name: signer
+  documentation: "The absolute canonical HTTPS url identifying the Notary who issued the `signature`. Obviously this must match one of the `signer`s in the Receipt Definition."
+  base: anyURI
+- name: time
+  documentation: 'The Unix Epoch time when the client says the transaction happened.'
+  base: unsignedInt
+- name: cost
+  documentation: "Usually an expression of monetary value, which must match, total to, or exceed the `cost` from the Receipt Definition. While the actual charging of money is left to the Notery's discretion, this is generally assumed to be the amount the user _paid_ for the Receipt. **Because of the cryptographic limitations of the current version of this protocol, Noteries will only honor Receipts for a single set amount.**"
+  children:
+  - - name: units
+    - name: amount
+  - - name: plan
+- name: units
+  documentation: "A currency code. [ISO4217](https://en.wikipedia.org/wiki/ISO_4217) codes are recommended."
+  base: string
+- name: amount
+  documentation: "A decimal number amount of that currency's major units. For example, six US cents would be `0.06`, not `6`."
+  base: decimal
+- name: plan
+  documentation: "An identifier which is assumed to mean something to the various parties involved."
+  base: string
+- name: uuid
+  documentation: 'An ID for a Bare-Receipt. This may be used to prevent reuse of a receipt by multiple parties (with caveats). Use of values other than properly-generated V4 UUIDs is unsafe.'
+  base: string
+  restrictions:
+  - kind: pattern
+    value: '\{?([0-9a-fA-F]{4}-?){8}\}?'
+- name: signature
+  documentation: "The Notary Signature of the receipt."
+  base: hexBinary
+

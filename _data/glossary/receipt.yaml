@@ -1,0 +1,34 @@
+subject: Receipt
+path: /receipts.html#glossary_receipt
+meaning: |
+  A **Receipt** is an XML object describing a particular payment for a particular resource.
+  
+  The XML document is always expressed as a list of Receipts; the XML root is `<receipts>`.
+
+  [The XSD is here]({{ "/402receipts-receipt.xsd" | absolute_url }})
+  
+  #### UUID Details<a name="uuid-implementation-details"></a>
+  It's the Client's responsibility to generate a random version-4 UUID.
+  Use of other UUID types may result in identifiers that are traceable back to the Client's computer, or may risk collisions.
+  Uniqueness is only enforceable on the signer/domain/UUID _triplet_;
+  the global uniqueness of UUID's can't be relied upon here because a malicious client could deliberately violate it.
+example: |
+  ```xml
+  <receipts>
+    <receipt xmlns="https://402.TBD">
+      <domain>https://www.example.com/</domain>
+      <item>/path/image.png</item>
+      <signer>https://receipts.dmn.network/path</signer>
+      <time>1557944008</time>
+      <cost>
+        <units>USD</units>
+        <amount>0.05</amount>
+      </cost>
+      <uuid>bf9c1367-9589-41ff-8f74-134877341cce</uuid>
+      <signature>1234567890ABCDEF</signature>
+    </receipt>
+  </receipts>
+  ```
+
+
+

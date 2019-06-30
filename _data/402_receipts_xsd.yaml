@@ -1,61 +1,11 @@
 namespace: "https://402.TBD"
-documentation: XML Schema for menu.xml files and for Receipt Definition XML objects.
+documentation: XML Schema for Receipt Definition XML objects.
 root_elements:
-- name: menu
-  documentation: The root element of a menu.xml file.
 - name: definitions
-  documentation: "The root element of a Receipt Definition xml fragment. Also a child of a `<resource>` within a menu.xml file."
+  documentation: "The root element of a Receipt Definition xml fragment."
 types:
-- name: menu
-  documentation: "A menu of resources within a given scope for which receipts are required or accepted."
-  children:
-  -
-    - name: scope
-    - name: resources
-    - name: continued
-      optional: true
-- name: scope
-  documentation: "An absolute address or address prefix. Specifically, if the `scope` ends in a `/` then the the scope is understood to be that path (with or without the trailing `/`) and all its contents and sub-directories. The `scope` should not have a query-string or hash; all variations distinguished by query-strings or hashes are included in the one scope."
-  base: anyURI
-- name: resources
-  documentation: "All resources within the scope, _and all resources used by pages within the scope_, for which receipts are required or accepted, must be listed."
-  list:
-    name: resource
-- name: resource
-  documentation: "A resource (identified by the `loc` and `verbs`) for which receipts are required."
-  children:
-  - - name: loc
-    - name: verbs
-      optional: true
-    - name: definitions
-    - name: usedby
-      optional: true
-- name: loc
-  documentation: "The absolute address of the resource for which a receipt is required in order to access. If there is not a query string in the `loc`, it's assumed that query strings will not identify a different resource or necessitate different receipts. Differentiating resources by hashes is not intelligible; hashes are not allowed in the `loc`."
-  base: anyURI
-- name: verbs
-  documentation: "If this is omitted it's assumed that the HTTP verb won't affect the resource or required receipts."
-  list: 
-    name: verb
-- name: verb
-  documentation: "An HTTP verb (technically, a [method](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods))."
-  base: string
-- name: usedby
-  documentation: "A list of the `url`s of pages that use the resource."
-  list: 
-    name: url
-- name: url
-  documentation: "Paths with trailing `/`s will be treated as prefixes in the same was as in the `scope`. Query strings and hashes may be used and may use `*` characters as wildcards. That said, it's unclear how this would actually be used by the client."
-  base: anyURI
-- name: continued
-  documentation: "May be used to specify additional menus with the same scope, who's `resource` lists should be concatenated together."
-  list: 
-    name: menuurl
-- name: menuurl
-  documentation: "A single menu.xml may not contain more than 1,000 resources or exceed 1MB uncompressed."
-  base: anyURI
 - name: definitions
-  documentation: "A list of `definition`s. May be a child of a `resource`, or may be the root of an xml fragment in a `Receipts-Accepts` header."
+  documentation: "A list of `definition`s."
   list: 
     name: definition
 - name: definition
@@ -90,9 +40,6 @@ types:
 - name: ttl
   documentation: 'An integer representing the maximum age in seconds of a Signed Receipt that will be accepted. Two independent conventions are recommended as "normal": The `ttl` should be 2720000, comfortably covering a month. The `ttl` should be the same for all items in a given domain.'
   base: unsignedInt
-- name: fresh
-  documentation: "An integer representing the maximum age in seconds of a Receipt Submission. For now this is required to be 60."
-  base: unsignedInt
 - name: costs
   documentation: "A list of `cost` elements. If multiple costs are listed in a single definition, they should probably represent similar monetary values; `costs` is a list to accommodate multiple currencies."
   list:
@@ -112,12 +59,5 @@ types:
 - name: plan
   documentation: "An identifier which is assumed to mean something to the various parties involved."
   base: string
-- name: time
-  documentation: 'A unix timestamp as an integer representing seconds.'
-  base: unsignedInt
-- name: uuid
-  documentation: 'An ID for a Bare-Receipt. This may be used to prevent reuse of a receipt by multiple parties (with caveats). Use of values other than properly-generated V4 UUIDs is unsafe.'
-  base: string
-  restrictions:
-  - kind: pattern
-    value: '\{?([0-9a-fA-F]{4}-?){8}\}?'
+
+
