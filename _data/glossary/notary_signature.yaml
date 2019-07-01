@@ -1,0 +1,14 @@
+subject: Notary Signature
+path: /blind_signatures.html#glossary_notary_signature
+meaning: |
+  The Notary Signature is an RSA Blind Signature of a serialization of the Receipt.
+
+  
+example: |
+  ```xml
+  <receipt xmlns="https://www.TBD.com">
+    <bare>string representation of the inner data object</bare>
+    <signature>RSA signature of the SHA512 hash of the value in `data`</signature>
+  </receipt>
+  ```
+
