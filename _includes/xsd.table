@@ -1,6 +1,13 @@
 <table>
-  <caption>XML Schema Documentation for the {{ include.xsd.namespace }} namespace.</caption>
-  <thead><tr><td colspan="3">{{ include.xsd.documentation | markdownify }}</td></tr></thead>
+  <caption>
+    <div>{{ include.xsd.documentation | markdownify }}</div>
+    <div>Namespace: <span class="xsd-table-namespace">{{ include.xsd.namespace }}</span></div>
+    <div>
+      <a href="{{ include.xsd.permalink | absolute_url }}" target="_blank" title="Open the raw XSD in a new tab">
+        The XSD itself is here.
+      </a>
+    </div>
+  </caption>
   <thead>
     <tr>
       <th class="xsd_tag_header">Tag</th>

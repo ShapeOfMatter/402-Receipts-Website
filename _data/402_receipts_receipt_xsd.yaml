@@ -1,5 +1,6 @@
 namespace: "https://402.TBD"
 documentation: XML Schema for Receipt XML objects.
+permalink: /402receipts_receipt.xsd
 root_elements:
 - name: receipts
   documentation: The root element of an XML document containing a list of Receipts.
