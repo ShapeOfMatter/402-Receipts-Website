@@ -3,7 +3,7 @@ title: Receipt Definitions
 date: 2019-01-12 12:00:00 Z
 permalink: "/receipt_definitions.html"
 description: Receipt Definitions as used in the 402-Receipt Proposed standard.
-documentation_order: 6
+documentation_order: 5
 summary: Detailed descriptions of Receipt Definitions as used in the 402-Receipt Proposed
   standard, with XSD.
 ---
