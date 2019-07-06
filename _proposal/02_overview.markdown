@@ -8,6 +8,15 @@ summary: An overall summary of how the system works.
 ---
 
 We propose a suite of HTTPS headers, HTML head elements, and surrounding utilities to make direct monetization of web-accessible resources low-stress and safe even for non-specialist human users.
+"Direct monetization" is meant in the sense that the producers of online content are able to make money off of that
+content from the audience of the content itself, as opposed to monetizing _the attention of the audience_, for example
+with ad placements. 
+"Direct monetization" _doesn't_ mean that there is no third party besides the consumers and producers of the content.
+The current version of this protocol does not include any process for a web host to actually accept funds from a web
+client.
+Placing a credit-card charge or otherwise transacting funds happens out-of-band, 
+both between the consumer and a third-party notary, and between the producer and that same notary (if the producer of
+the content is a separate entity from the notary).
 
 > We anticipate a tip-jar configuration in which no payment is _required_ to access the resource, but a clear means of making optional payments is exposed to the client along with explicit expectations about what they _should_ pay. Throughout this document we will talk interchangeably about "requiring" or "accepting" receipts. The actual behavior gets specified in the {% include link s=site.data.glossary.receipt_definition %}. Tools for handling this situation _within the tools of this protocol_ and _with ideal performance_ are unlikely to be included in Version 0.
 
