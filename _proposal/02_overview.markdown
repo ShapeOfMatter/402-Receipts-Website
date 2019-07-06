@@ -18,9 +18,7 @@ Placing a credit-card charge or otherwise transacting funds happens out-of-band,
 both between the consumer and a third-party notary, and between the producer and that same notary (if the producer of
 the content is a separate entity from the notary).
 
-> We anticipate a tip-jar configuration in which no payment is _required_ to access the resource, but a clear means of making optional payments is exposed to the client along with explicit expectations about what they _should_ pay. Throughout this document we will talk interchangeably about "requiring" or "accepting" receipts. The actual behavior gets specified in the {% include link s=site.data.glossary.receipt_definition %}. Tools for handling this situation _within the tools of this protocol_ and _with ideal performance_ are unlikely to be included in Version 0.
-
-Although this standard will focus on HTTPS exchanges; it's desirable that the framework translate clearly to other internet communications. 
+> We anticipate a tip-jar configuration in which no payment is _required_ to access the resource, but a clear means of making optional payments is exposed to the client along with explicit expectations about what they _should_ pay. Throughout this document we will talk interchangeably about "requiring" or "accepting" receipts. The actual behavior gets specified in the {% include link s=site.data.glossary.receipt_definition %}.
 
 ## How do you, an end-user, use this?
 
