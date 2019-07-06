@@ -2,9 +2,9 @@
 title: Receipts
 date: 2018-12-06 12:00:00 Z
 permalink: "/receipts.html"
-description: The 402-Receipt Proposed standard.
+description: Receipt schema for The 402-Receipt Proposed standard.
 documentation_order: 6
-summary: How receipts are composed, signed, used, and validated. (work in progress)
+summary: Describes Receipt documents and the blind-validation scheme for them. Includes the XML schema.
 ---
 
 A Receipt is a message specifying that someone paid for access to a resource, or should otherwise be given access to the resource.
