@@ -28,8 +28,8 @@ the global uniqueness of UUID's can't be relied upon here because a malicious cl
 
 The `receipts` XML object is a _list_ because situations are likely in which a user will want to submit multiple
 receipts at once.
-For example, a website might give a {% include link s=site.data.glossary.receipt_definition %}
-to the effect of _"Pages are \$0.05 each, up to \$3.00/month."_. 
+For example, a website might give a {% include link s=site.data.glossary.receipt_definition %} to the effect of 
+_"Pages are \$0.05 each, up to \$3.00/month."_. 
 Once a customer had viewed enough pages that their receipts for that month totaled \$3.00, 
 their Client would begin submitting bundled Receipts instead of buying a receipt for each page.
 
