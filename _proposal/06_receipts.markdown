@@ -19,7 +19,7 @@ A Receipt is a message specifying that someone paid for access to a resource, or
 > Systems to prevent sharing of receipts are desired, but not critical for version 0.
 
 ## UUID Details
-It's the {{ include link s=site.data.glossary.client c="Client's" }} responsibility to generate a random version-4 UUID.
+It's the {% include link s=site.data.glossary.client c="Client's" %} responsibility to generate a random version-4 UUID.
 Use of other UUID types may result in identifiers that are traceable back to the Client's computer, or may risk collisions.
 Uniqueness is only enforceable on the signer/domain/UUID _triplet_;
 the global uniqueness of UUID's can't be relied upon here because a malicious client could deliberately violate it.
@@ -28,7 +28,7 @@ the global uniqueness of UUID's can't be relied upon here because a malicious cl
 
 The `receipts` XML object is a _list_ because situations are likely in which a user will want to submit multiple
 receipts at once.
-For example, a website might give a {{ include link s=site.data.glossary.receipt_definition }} 
+For example, a website might give a {% include link s=site.data.glossary.receipt_definition %}
 to the effect of _"Pages are \$0.05 each, up to \$3.00/month."_. 
 Once a customer had viewed enough pages that their receipts for that month totaled \$3.00, 
 their Client would begin submitting bundled Receipts instead of buying a receipt for each page.
