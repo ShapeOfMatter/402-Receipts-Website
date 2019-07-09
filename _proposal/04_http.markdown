@@ -12,7 +12,9 @@ Most of the communication needed by this standard happens in the HTTP headers of
 
 Additionally, the meaning of relevant HTTP Response codes is explained.
 
-**All requests and responses involved in this standard should be made over HTTPS connections with valid certificates.** Implementations are not obliged to accept receipts or other information transmitted over HTTP.
+**All requests and responses involved in this standard should be made over HTTPS connections with valid certificates.** 
+Implementations should decline to follow addresses for insecure HTTP resources, 
+and where possible should redirect HTTP traffic to HTTPS.
 
 {% include glossary_item s=site.data.glossary.402_response %}
 {% include glossary_item s=site.data.glossary.accepts_header %}

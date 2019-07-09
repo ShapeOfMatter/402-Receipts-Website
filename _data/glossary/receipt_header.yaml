@@ -1,7 +1,7 @@
 subject: Receipts-Receipt Header
 path: /http.html#glossary_receipt_header
 meaning: |
-  The `Receipts-Receipt` HTTP Request header will contain a compressed Signed Receipt xml object.
+  The `Receipts-Receipt` HTTP Request header will contain a compressed Receipt xml object.
   See the [Receipts](/receipts.html) page for a more detailed explanation of the contents of a Receipt
   and details of how it will be signed and its textual representation.
 example: |

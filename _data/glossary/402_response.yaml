@@ -8,4 +8,5 @@ meaning: |
   A `Receipts-Accepts` header is mandatory for a 402 response.
   
   If a 402 response has a response body, that body should be used as a placeholder for the requested resource, and must be appropriate for such use.
+  It should contain human-appropreate messaging explaining the nature of the problem.
 
