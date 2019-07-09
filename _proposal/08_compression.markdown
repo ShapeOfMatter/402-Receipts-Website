@@ -4,7 +4,7 @@ date: 2018-12-31 15:44:00 Z
 permalink: "/compression.html"
 description: Conventions for compressing objects within the context of the 402-Receipts
   standard.
-documentation_order: 7
+documentation_order: 8
 summary: Exact specification of how larger objects should be compressed, for example
   for use in HTTPS headers.
 ---
@@ -31,4 +31,3 @@ def uncompress(b64_string):
 - Is the above description sufficiently specific? A Haskell code example would make the bytewise representation more explicit.
 - Is zlib the ideal compression scheme? gzip is basically just as ubiqutious and it's what the HTTP body will typically use. On the other hand gzip libraries seem to be written for "files", and it's better here to work with "strings". 
 - Should this compression be optional? After all, even an uncompressed {% include link s=site.data.glossary.receipt_definition %} will typically be less than 10KB. If we make it optional, do we need any kind of flag to denote compression?
-
