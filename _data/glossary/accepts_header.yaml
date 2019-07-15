@@ -2,7 +2,7 @@ subject: Receipts-Accepts Header
 path: /http.html#glossary_accepts_header
 meaning: |
   The `Receipts-Accepts` response header value is
-  a [compressed](/compression.html) [Receipt Definition XML object](/xml.html#glossary_receipt_definition).
+  a [compressed](/compression.html) [Receipt Definition XML object](/receipt_definitions.html).
   Any response may have an Accepts header, but they are mandatory for a 402 Response.
   In practice it's advisable for the `Receipts-Accepts` header to be constant
   for a given resource regardless of the rest of the details of the response.

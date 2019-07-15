@@ -4,11 +4,5 @@ meaning: |
   The `Receipts-Receipt` HTTP Request header will contain a compressed Receipt xml object.
   See the [Receipts](/receipts.html) page for a more detailed explanation of the contents of a Receipt
   and details of how it will be signed and its textual representation.
-example: |
-  ```text
-  Receipts-Receipt: asdf
-  ```
-  This decompresses to the following
-  ```
-  we haven't decided on a canonical representation yet.
-  ```
+
+
