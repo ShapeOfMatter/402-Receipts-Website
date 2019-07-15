@@ -72,6 +72,18 @@ code {
   margin-left: 2em;
   max-width: 50em;
   background: $light-color;
+  overflow: hidden;
+  position: relative;
+}
+
+pre.highlight::after {
+  content: '';
+  width: 2.5em;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to right, transparent, #eee 2.3em);
 }
 
 table {
