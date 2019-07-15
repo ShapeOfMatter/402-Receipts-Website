@@ -1,5 +1,5 @@
 subject: Notary Signature
-path: /blind_signatures.html#glossary_notary_signature
+path: /receipts.html#glossary_notary_signature
 meaning: |
   The Notary Signature is the `<signature>` tag within a Receipt.
   It's an [RSA Blind Signature](/signatures.html) of the contents of the Receipt, seriallized as described below.
