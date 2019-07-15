@@ -15,6 +15,7 @@ A Receipt is a message specifying that someone paid for access to a resource, or
 > Like other performance issues, we _do_ plan to address this problem, but useable systems don't need to wait for it.
 
 {% include glossary_item s=site.data.glossary.receipt %}
+{% include glossary_item s=site.data.glossary.notary_signature %}
 
 > Systems to prevent sharing of receipts are desired, but not critical for version 0.
 

@@ -1,14 +1,42 @@
 subject: Notary Signature
 path: /blind_signatures.html#glossary_notary_signature
 meaning: |
-  The Notary Signature is an RSA Blind Signature of a serialization of the Receipt.
+  The Notary Signature is the `<signature>` tag within a Receipt.
+  It's an [RSA Blind Signature](/signatures.html) of the contents of the Receipt, seriallized as described below.
+  
+  The subject of the blind signature is the concatination, in this order, of the following key-value pairs:  
+  `domain`, `item`, `signer`, `time`, `units` _if there is one_, `amount` _if there is one_, `plan` _if there is one, and `uuid`.  
+  String values should have any double-quote characters removed, and should be enclosed in double-quotes.  
+  `time` should use the normal decimal integer representation: no leading zeros, sign, decimal-point, or thousands-markers.  
+  `amount` should use _signed_ decimal representation: no _extra_ leading or trailing zeros, `.` decimal-point, no thousands-markers.
+  `uuid` should use just the lower-case hex bytes without braces, dashes, or quotes.  
+  This will be hashed and signed as a utf-8 string.
 
+  The public key for a given Notary, identified by the Receipt's `signer` field, is assumed to be known by the Client and Host.
   
 example: |
-  ```xml
-  <receipt xmlns="https://www.TBD.com">
-    <bare>string representation of the inner data object</bare>
-    <signature>RSA signature of the SHA512 hash of the value in `data`</signature>
-  </receipt>
+  Given an abstract receipt such as
+
+  - domain: `https://www.example.com/`
+  - item: `This is "technically" a valid item string.`
+  - signer: `https://receipts.dmn.network/path`
+  - time: 1557944008
+  - units: `USD`
+  - amount: 5.0000001×10^-6
+  - uuid: {{bf9c1367-9589-41ff-8f74-134877341cce}}
+
+  one would serialize it as
+
+  ```text
+  domain"https://www.example.com/"item"This is technically a valid item string."signer"https://receipts.dmn.network/path"time1557944008units"USD"amount0.0000050000001uuidbf9c1367958941ff8f74134877341cce
   ```
+  
+  which might yeild a Notary Signature like
+
+  ```text
+  a659953eaff5e9585445f4fccb454dd9e5cc3b124aadada5651746b2ab0ab222f0c0a29a4473535e08f1f2eedbff572c0b263ed7f984d5fb5a5e019f53a93ef1f3eccf3d54c4d605cfe3b45cae2f89e4f1cf7808678f0c9a48b0bea576b6bd67d462a740b79e8eb242b047e5efd02f13fb233c3552ee6085fe60c66929610be7b4de0831ca1bb202febd58b04d6fcb13a060b2617da6b2dc2a03f09e1d2ada1d9b3449fe6ce5ef13f8e2a4e0b4150498f980877e3265b78cb18716167925011812488bf03754d52b92b9cf885c8f5f42dc4ba2b7ab47702f68a4d6d49f555e97698d7bad096398cffd33e5443f48dc74c5edcf8af59474b2808c7f7b846052bh
+  ```
+
+  to be used in the Receipt XML.
+
 

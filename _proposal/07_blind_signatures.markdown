@@ -7,35 +7,91 @@ documentation_order: 7
 summary: Describes the RSA Blind Signature scheme used, and links to a reference implementation.
 ---
 
-A Receipt is a message specifying that someone paid for access to a resource, or should otherwise be given access to the resource.
+The current version of this protocol relies on the vanilla RSA blind signature scheme, for which we provide an
+open-source [reference implementation](https://github.com/ShapeOfMatter/RSA-Blind-Signature). 
+Shell-script 402-Receipts tools are not appropriate for production use, but will serve for proof-of-concept and
+demonstration of the required behavior.
 
-> There are some practical limitations of the readily available cryptographic options, which are unlikely to be fixed in time for version 0.  
-> In particular, the use of a _fully_ blind signature means that, in practice, a given Notary can only issue Receipts for a single amount.
-> Like other performance issues, we _do_ plan to address this problem, but useable systems don't need to wait for it.
+The Client will need to generate an "client secret" (a precursor to the blinding factor). 
+This is basically just a cryptographically-randomly generated number, except that it must be checked for appropiateness
+with respect to the Notary's public key.
 
-{% include glossary_item s=site.data.glossary.receipt %}
+```bash
+bash@client$ cat scratch/public.pem
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwZ8xGol2RiBQsExz9dc9
+hDMwSbRoc+3y38SxlpI7rrge+ww6mpxbxXhstflJonhZVUOMICdFPbg/eXg4g5Y8
+lUsclwtLHsc/7mFfUK5uYvZZvjhm5RWIizz+Kma9svYiUZCDwi8XJywaAk0Sif4s
+5KqQNV2a4gc7uTWm62RGCPDaOn2UyBYbAUwElV+nS7YXVO7UfxPOiOhJ04L70fIl
+xzorJlddRLGOb2JFQVOiU9MkYwATHt5Qnwcq2l+LxHPrVnqu80pyyfkYyDl0FBZV
+J+xztfeesfj6824zDHC/qB6JKpOhXWtftFFXgoRaE7P9DM1Gp9Dv7FdMrr86bkfD
+rQIDAQAB
+-----END PUBLIC KEY-----
+bash@client$ bin/blsig_get_client_secret scratch/public.pem 
+b5e8104c3d2b8a763e1825823fb2514c45ecdad9cd7f4941390846049bfc00c0cab91b1eefe93793178bd0dc0a93ea3f6d7f9708b80d3355956153a5b207a0f9e7c99a3b87a2d55a112ca458e540301839af91bc4e3c192173d09dcdef3de8c064fcf68013d1b866026189f3a99f5a627305288ab130404df007bd24cfa4a762799d2a0195ceaa9702a848887a10272c68ead42e4b53572cac3205a72ccf741c82f746bd6f5f90b747f0d1991ecf99e5696c857a1ccce3a3834fc47c27bf68057d6b9ef8f100deeb17bd93b4b51ecfe344df736ea26a93c48262ea839eed994d1ce7d8cef32704e0875fa4ec0f36ae4f42d68236227c2e9cdd55cbf92206e90dh
+```
 
-> Systems to prevent sharing of receipts are desired, but not critical for version 0.
+The client secret should be hidden from all other parties, and should be kept only until the final signature has been
+obtained.
 
-## UUID Details
-It's the {% include link s=site.data.glossary.client c="Client's" %} responsibility to generate a random version-4 UUID.
-Use of other UUID types may result in identifiers that are traceable back to the Client's computer, or may risk collisions.
-Uniqueness is only enforceable on the signer/domain/UUID _triplet_;
-the global uniqueness of UUID's can't be relied upon here because a malicious client could deliberately violate it.
+The serialized Receipt representation used for the {% include link s=site.data.glossary.notary_signature %} is SHA512
+hashed and then blinded with the client secret and public key.
 
-## Bundled Receipts
+```bash
+bash@client$ bin/blsig_get_blinded_hash 'domain"https://www.example.com/"item"This is technically a valid item string."signer"https://receipts.dmn.network/path"time1557944008units"USD"amount0.0000050000001uuidbf9c1367958941ff8f74134877341cce' 'b5e8104c3d2b8a763e1825823fb2514c45ecdad9cd7f4941390846049bfc00c0cab91b1eefe93793178bd0dc0a93ea3f6d7f9708b80d3355956153a5b207a0f9e7c99a3b87a2d55a112ca458e540301839af91bc4e3c192173d09dcdef3de8c064fcf68013d1b866026189f3a99f5a627305288ab130404df007bd24cfa4a762799d2a0195ceaa9702a848887a10272c68ead42e4b53572cac3205a72ccf741c82f746bd6f5f90b747f0d1991ecf99e5696c857a1ccce3a3834fc47c27bf68057d6b9ef8f100deeb17bd93b4b51ecfe344df736ea26a93c48262ea839eed994d1ce7d8cef32704e0875fa4ec0f36ae4f42d68236227c2e9cdd55cbf92206e90dh' scratch/public.pem
+c11c853607f602c9feafce3c46d9098c84e6cb6ad2fa6b413ea693e062588894ab3eb674679254170206ada14e430fc1462ebca648e20bc25cf0c23c7b9b31a2a086f30a61f3747958d1842cb1ff1853134284b88c5677f117ca9d1fb95a948affdf3e3b6c612d08ec9659ff5d2636b5b0575119dfd289949e952f0c0522e6ca5a4f5b94e46abe481cfc0a4c743b9489a3fe4fa743a0b4d0647356ccc61baa5c971537da3d3bd222f7a0f95f9cb00dbdafc4ccc4c1f7805a35b98b44e16bcb744891841348c9a65db5fbd598fe65a6e26bec63ddf0fd2f3d6e12e11854ab2a6f29a3ac32c1ad8961b0038ce92a33f0ea5ddc9c9fecceee8a8e0a9592e1522312h
+```
 
-The `receipts` XML object is a _list_ because situations are likely in which a user will want to submit multiple
-receipts at once.
-For example, a website might give a {% include link s=site.data.glossary.receipt_definition %} to the effect of 
-_"Pages are \$0.05 each, up to \$3.00/month."_. 
-Once a customer had viewed enough pages that their receipts for that month totaled \$3.00, 
-their Client would begin submitting bundled Receipts instead of buying a receipt for each page.
+This value (the "blinded hash") is sent by the Client to the Notary.
+The Notary signs it and send the resulting value back to the Client.
+This "blinded signature" is incomplete, and without the corresponding client secret it's meaningless and useless.
 
-The above configuration would be accomplished by serving two Receipt Definitions with each page;
-the first (\$0.05) would specify the page as the `item`, and the second (\$3.00) would have a blank (wildcard) `item`
-field.
+```bash
+bash@notary$ cat scratch/private.pem 
+-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEAwZ8xGol2RiBQsExz9dc9hDMwSbRoc+3y38SxlpI7rrge+ww6
+mpxbxXhstflJonhZVUOMICdFPbg/eXg4g5Y8lUsclwtLHsc/7mFfUK5uYvZZvjhm
+5RWIizz+Kma9svYiUZCDwi8XJywaAk0Sif4s5KqQNV2a4gc7uTWm62RGCPDaOn2U
+yBYbAUwElV+nS7YXVO7UfxPOiOhJ04L70fIlxzorJlddRLGOb2JFQVOiU9MkYwAT
+Ht5Qnwcq2l+LxHPrVnqu80pyyfkYyDl0FBZVJ+xztfeesfj6824zDHC/qB6JKpOh
+XWtftFFXgoRaE7P9DM1Gp9Dv7FdMrr86bkfDrQIDAQABAoIBAGfDmpswI/R9CQES
+V+reSRd6H1zAlGHcmZaWYN3izJ1cCy5bZWTKetwfJ5N2X6H0gVuScZwhr5feEBZW
++WJ7t0gDEvVXlhCOk5J7GIuyj3H1uC6bJ3mJyr1kGIo8uVkZU1cG7bW5at0RY3bs
+Ow087G43gkU3PvP3EGi3ehcYi/fpu/bP1x8ayH6k8I93demkOfD7PMrv9ZVaofM6
+e4jVtDJelGXDTHoO4lVzCpF36aFm3zT/GpMLgBB9TWnmOCs9Tfg1U7nk+v6I0Gst
+2eprGsMin/NxDLMFzrm0XtRGJQyEtP24+tnHAxHk3JyZVYsJuH4S5D3ZyAExvAwV
+I+ggrrkCgYEA91E1STVnQvGs/EJpCi+b/yucwg2peEBqPo5GCMEksYkVBOkYapfX
+f2gjwQttwOJYFiP/HU6g0o9O70xBIwe30XpWfL9qepGN4scR+tyMyTXn8l/kaJaM
+LWM+nuumtJOpC+Q+tw5kKMZQUGKgTJU/8UhGMTfL2uTTLmkS9tkE3RsCgYEAyGtj
+66i17oPTHC0PnnyTlqTQlFgaWFf47M3QXmgZhyKO7z/bhqEqQz5PF1rOK1BTw5+f
+c+U3kNZvBhq1mDTUhkc8FuszGZ8e2IC44O+LfdFacqB1QqS6rd/uyorKpVn7Z3pU
+rYdMoK9KfvygrFwR2oaIb+qTLC+xvNI5FdBxVtcCgYAraK6QpfX08xRoxoNHTWn1
+FMOT7+/x8mRzjGdQfA4jtyrgTMWDWBlz/GRiKs5dz5ykbjcF/toNeyfgqqK4Mk+a
+Tf3GMZbP4qJjzosiW/m+C18l1JzzmpEKGmRQYo5FHbHLK4myea0s1vob0ePO7Vdm
+00e2tdNrHUTP3ZN9jkPjRwKBgB+YrpwMcQI1Tib3A6tcwHfTa/63FRAwblIG8H6x
+srSXQil9y8IhzmPjgtyPuEkj1NDWbXD8BhKTe9VeiJqCWa8Bs/t5AQldCKPhR0RO
+/5LKWpQPr+zdw4B9+Ut9Lg17biMWKhthZTc/62KxuTLzIO1uoDvko2cn7cFy8wT5
+Y6TpAoGBAN08IaBMW7ODZV4X3P2KcnPEG4pllSGbW1IYRG0kDI58v9o6JMnPUyRU
+DHQgAdC9i0i9yix8cg1OHvDsbGg3lv7qjJK2x0mDGVP5auzMRj4u79mkD5957KMO
+MqJ2pZ/C0YTNFGfxRyN7Yz8vUqnOJlFg8/JLLnOnDAJHUpJPYflg
+-----END RSA PRIVATE KEY-----
+bash@notary$ bin/blsig_get_blind_signature 'c11c853607f602c9feafce3c46d9098c84e6cb6ad2fa6b413ea693e062588894ab3eb674679254170206ada14e430fc1462ebca648e20bc25cf0c23c7b9b31a2a086f30a61f3747958d1842cb1ff1853134284b88c5677f117ca9d1fb95a948affdf3e3b6c612d08ec9659ff5d2636b5b0575119dfd289949e952f0c0522e6ca5a4f5b94e46abe481cfc0a4c743b9489a3fe4fa743a0b4d0647356ccc61baa5c971537da3d3bd222f7a0f95f9cb00dbdafc4ccc4c1f7805a35b98b44e16bcb744891841348c9a65db5fbd598fe65a6e26bec63ddf0fd2f3d6e12e11854ab2a6f29a3ac32c1ad8961b0038ce92a33f0ea5ddc9c9fecceee8a8e0a9592e1522312h' scratch/private.pem 
+137e977d3e413b7fcdc3fe5953b5e6f49feb44dd50f357fb057b72b7f0e1f57aae412246324d5f366a95418837c4fed8631b829a03082f3959ce0936380fff5040ddd7e393255e143fc2701736e636bbf60d4048662f31860d2fdc7a1ac0735248ed6d09fa244dbcb67d3b1df27c10ae56a1e8d49fae47f477559544ab391c109aa01ce605dca662d3f1831107b5cd3cc3a84849453ebdfe469b6d5cf15dd76bd6dd2ea80d46c2c67af8fa0a19560c8795263d22bd8b6fadd146b9a4facd08e200d6fc44e5701173a97200cf4aa9b6d69e110fd6a02544bea03002742fc567fffa7d76d4346b8fdb72f7d2e9ddf0394837f972d1d1c0cd3304eb148a62835116h
+```
 
-## Schema
+The Client unblinds the signature and verifies that the signature is valid.
+(It happens that the Client is able to do the verification before the unblinding.)
+The resulting signature, as hex bytes, is the {% include link s=site.data.glossary.notary_signature %},
+and is used as the `signature` in the {% include link s=site.data.glossary.receipt %}.
 
-{% include xsd.table xsd=site.data.402_receipts_receipt_xsd %}
+```bash
+bash@client$ bin/blsig_get_unblinded_signature '137e977d3e413b7fcdc3fe5953b5e6f49feb44dd50f357fb057b72b7f0e1f57aae412246324d5f366a95418837c4fed8631b829a03082f3959ce0936380fff5040ddd7e393255e143fc2701736e636bbf60d4048662f31860d2fdc7a1ac0735248ed6d09fa244dbcb67d3b1df27c10ae56a1e8d49fae47f477559544ab391c109aa01ce605dca662d3f1831107b5cd3cc3a84849453ebdfe469b6d5cf15dd76bd6dd2ea80d46c2c67af8fa0a19560c8795263d22bd8b6fadd146b9a4facd08e200d6fc44e5701173a97200cf4aa9b6d69e110fd6a02544bea03002742fc567fffa7d76d4346b8fdb72f7d2e9ddf0394837f972d1d1c0cd3304eb148a62835116h' 'c11c853607f602c9feafce3c46d9098c84e6cb6ad2fa6b413ea693e062588894ab3eb674679254170206ada14e430fc1462ebca648e20bc25cf0c23c7b9b31a2a086f30a61f3747958d1842cb1ff1853134284b88c5677f117ca9d1fb95a948affdf3e3b6c612d08ec9659ff5d2636b5b0575119dfd289949e952f0c0522e6ca5a4f5b94e46abe481cfc0a4c743b9489a3fe4fa743a0b4d0647356ccc61baa5c971537da3d3bd222f7a0f95f9cb00dbdafc4ccc4c1f7805a35b98b44e16bcb744891841348c9a65db5fbd598fe65a6e26bec63ddf0fd2f3d6e12e11854ab2a6f29a3ac32c1ad8961b0038ce92a33f0ea5ddc9c9fecceee8a8e0a9592e1522312h' 'b5e8104c3d2b8a763e1825823fb2514c45ecdad9cd7f4941390846049bfc00c0cab91b1eefe93793178bd0dc0a93ea3f6d7f9708b80d3355956153a5b207a0f9e7c99a3b87a2d55a112ca458e540301839af91bc4e3c192173d09dcdef3de8c064fcf68013d1b866026189f3a99f5a627305288ab130404df007bd24cfa4a762799d2a0195ceaa9702a848887a10272c68ead42e4b53572cac3205a72ccf741c82f746bd6f5f90b747f0d1991ecf99e5696c857a1ccce3a3834fc47c27bf68057d6b9ef8f100deeb17bd93b4b51ecfe344df736ea26a93c48262ea839eed994d1ce7d8cef32704e0875fa4ec0f36ae4f42d68236227c2e9cdd55cbf92206e90dh' scratch/public.pem 
+a659953eaff5e9585445f4fccb454dd9e5cc3b124aadada5651746b2ab0ab222f0c0a29a4473535e08f1f2eedbff572c0b263ed7f984d5fb5a5e019f53a93ef1f3eccf3d54c4d605cfe3b45cae2f89e4f1cf7808678f0c9a48b0bea576b6bd67d462a740b79e8eb242b047e5efd02f13fb233c3552ee6085fe60c66929610be7b4de0831ca1bb202febd58b04d6fcb13a060b2617da6b2dc2a03f09e1d2ada1d9b3449fe6ce5ef13f8e2a4e0b4150498f980877e3265b78cb18716167925011812488bf03754d52b92b9cf885c8f5f42dc4ba2b7ab47702f68a4d6d49f555e97698d7bad096398cffd33e5443f48dc74c5edcf8af59474b2808c7f7b846052bh
+```
+
+When the Host (and later the Notary) receives the Receipt, they can re-serialize data and validate the signature.
+
+```bash
+bash@host$ bin/blsig_verify_unblinded_signature 'a659953eaff5e9585445f4fccb454dd9e5cc3b124aadada5651746b2ab0ab222f0c0a29a4473535e08f1f2eedbff572c0b263ed7f984d5fb5a5e019f53a93ef1f3eccf3d54c4d605cfe3b45cae2f89e4f1cf7808678f0c9a48b0bea576b6bd67d462a740b79e8eb242b047e5efd02f13fb233c3552ee6085fe60c66929610be7b4de0831ca1bb202febd58b04d6fcb13a060b2617da6b2dc2a03f09e1d2ada1d9b3449fe6ce5ef13f8e2a4e0b4150498f980877e3265b78cb18716167925011812488bf03754d52b92b9cf885c8f5f42dc4ba2b7ab47702f68a4d6d49f555e97698d7bad096398cffd33e5443f48dc74c5edcf8af59474b2808c7f7b846052bh' 'domain"https://www.example.com/"item"This is technically a valid item string."signer"https://receipts.dmn.network/path"time1557944008units"USD"amount0.0000050000001uuidbf9c1367958941ff8f74134877341cce' scratch/public.pem 
+true
+```
