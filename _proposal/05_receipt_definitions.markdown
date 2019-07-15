@@ -8,7 +8,8 @@ summary: Explains what Receipts will be required or accepted when accessing a re
   Includes the XML schema.
 ---
 
-In the current version, the Receipt Definitions are communicated only in the Receipts Accepts headers.
+In the current version, the Receipt Definitions are communicated only in
+the {% include link s=site.data.glossary.accepts_header %}.
 
 {% include glossary_item s=site.data.glossary.receipt_definition %}
 
