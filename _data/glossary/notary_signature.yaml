@@ -5,10 +5,10 @@ meaning: |
   It's an [RSA Blind Signature](/signatures.html) of the contents of the Receipt, seriallized as described below.
   
   The subject of the blind signature is the concatination, in this order, of the following key-value pairs:  
-  `domain`, `item`, `signer`, `time`, `units` _if there is one_, `amount` _if there is one_, `plan` _if there is one, and `uuid`.  
+  `domain`, `item`, `signer`, `time`, `units` _if there is one_, `amount` _if there is one_, `plan` _if there is one_, and `uuid`.  
   String values should have any double-quote characters removed, and should be enclosed in double-quotes.  
   `time` should use the normal decimal integer representation: no leading zeros, sign, decimal-point, or thousands-markers.  
-  `amount` should use _signed_ decimal representation: no _extra_ leading or trailing zeros, `.` decimal-point, no thousands-markers.
+  `amount` should use _signed_ decimal representation: no _extra_ leading or trailing zeros, `.` decimal-point, no thousands-markers.  
   `uuid` should use just the lower-case hex bytes without braces, dashes, or quotes.  
   This will be hashed and signed as a utf-8 string.
 
