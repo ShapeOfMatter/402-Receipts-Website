@@ -12,7 +12,7 @@ open-source [reference implementation](https://github.com/ShapeOfMatter/RSA-Blin
 Shell-script 402-Receipts tools are not appropriate for production use, but will serve for proof-of-concept and
 demonstration of the required behavior.
 
-The Client will need to generate an "client secret" (a precursor to the blinding factor). 
+The Client will need to generate a "client secret" (a precursor to the blinding factor). 
 This is basically just a cryptographically-randomly generated number, except that it must be checked for appropiateness
 with respect to the Notary's public key.
 
@@ -43,7 +43,7 @@ c11c853607f602c9feafce3c46d9098c84e6cb6ad2fa6b413ea693e062588894ab3eb67467925417
 ```
 
 This value (the "blinded hash") is sent by the Client to the Notary.
-The Notary signs it and send the resulting value back to the Client.
+The Notary signs it and sends the resulting value back to the Client.
 This "blinded signature" is incomplete, and without the corresponding client secret it's meaningless and useless.
 
 ```bash
