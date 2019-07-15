@@ -5,7 +5,7 @@ meaning: |
   This standard specifies further responsibilities for the Host leading up to such a request and in how such requests should be handled.
   
   It is the Host's responsibility to validate incoming receipts; 
-  they must accept any receipt satisfying the [Receipt Definition](/xml.html#glossary_receipt_definition) published for the given resource.
+  they must accept any receipt satisfying the [Receipt Definition](/receipt_definitions.html) published for the given resource.
   If appropriate Receipts are provided, then the Host will respond like any other HTTPS host.
   If the Receipt is missing, inappropriate, or invalid, then the the Host will give an informative [402 Response](/http.html#glossary_402_response).
 

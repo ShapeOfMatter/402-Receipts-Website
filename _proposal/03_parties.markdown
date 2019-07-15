@@ -31,7 +31,7 @@ The Host is _not exactly just_ "the website", although this is an OK layperson's
 
 We assume that the Host's address will match the `domain` (and often `item`) of the Bare Receipt, and this may be enforced by the Client or Notary.
 
-A fully static host will not be suitable for this standard because; validating and (at minimum) saving receipts for
+A fully static host will not be suitable for this standard because validating receipts and saving them for
 future reimbursement is critical to the process.
 At absolute minimum the host will need to be able to strip the identifying key and signature and forward the receipt and Notary signature to the Notary;
 otherwise the Notary would never know to pay the Host.  
