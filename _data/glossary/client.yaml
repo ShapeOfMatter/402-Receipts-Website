@@ -7,6 +7,6 @@ meaning: |
   It needs to detect 402 Responses and parse the attached Receipt Definitions
   so that it can obtain the necessary receipts.
   
-  It needs to compose the [Bare Receipt](/receipts.html) and communicate with the [Notary](/notary.html#glossary_notary) to get it signed.
+  It needs to compose the [Receipt](/receipts.html) and communicate with the [Notary](/parties.html#glossary_notary) to get it signed.
   Finally, it will include the Receipt in the Header of the HTTPS request.
 
