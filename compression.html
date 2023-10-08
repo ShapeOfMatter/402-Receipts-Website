@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Compression</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Conventions for compressing objects within the context of the 402-Receipts standard.">
+    <link rel="stylesheet" href="/assets/main.css?12">
+    <link rel="shortcut icon" type="image/x-icon" href="/ico/favicon.png">
+  </head>
+  <body>
+    <div id="documentation-page">
+  <header>
+    <a class="text" href="/introduction.html">
+      The Proposed 402-Receipts Standard
+    </a>
+  </header>
+  <div id="columns">
+    <nav>
+      
+      
+        <span class="nav_item">
+          <a href="/introduction.html"><span>Introduction</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/overview.html"><span>Overview</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/parties.html"><span>Parties</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/http.html"><span>HTTP Components</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/receipt_definitions.html"><span>Receipt Definitions</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/receipts.html"><span>Receipts</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/signatures.html"><span>Blind Signatures</span></a>
+        </span>
+        
+        <span class="nav_item selected">
+          <a href="/compression.html"><span>Compression</span></a>
+        </span>
+        
+    </nav>
+    <article>
+    <p>There are a few places throughout the standard, particularly in HTTPS Headers, where compression is required.<br />
+Usually this is to reduce the likelihood of problems with HTTPS Header size limits. The parties are strongly recommended to check the size of the compressed string against a reasonable limit (10KB for an HTTPS Header); if no remediation for an over-sized message is available it may be better to throw a run-time exception than to send messages that can’t be received.</p>
+
+<p>The data, as UTF-8, should be compressed in zlib format and then rendered as base64.<br />
+As an example, in python3 we’d have a library like this (for string-to-string compression):</p>
+
+<pre><code class="language-python3">#!/usr/bin/env python3
+import base64
+import zlib
+
+def compress(plaintext_string):
+  return base64.b64encode(zlib.compress(plaintext_string.encode(), 9)).decode()
+
+def uncompress(b64_string):
+  return zlib.decompress(base64.b64decode(b64_string.encode())).decode()
+
+</code></pre>
+
+<ul>
+  <li>Is the above description sufficiently specific? A Haskell code example would make the bytewise representation more explicit.</li>
+  <li>Is zlib the ideal compression scheme? gzip is basically just as ubiqutious and it’s what the HTTP body will typically use. On the other hand gzip libraries seem to be written for “files”, and it’s better here to work with “strings”.</li>
+  <li>Should this compression be optional? After all, even an uncompressed <a href="http://402receipts.info/receipt_definitions.html#glossary_receipt_definition" title="A Receipt Definition is an XML object which tells a Client what receipts would be accepted in order ...">Receipt Definition</a>
+ will typically be less than 10KB. If we make it optional, do we need any kind of flag to denote compression?</li>
+</ul>
+
+    </article>
+  </div>
+</div>
+
+  </body>
+</html>
+

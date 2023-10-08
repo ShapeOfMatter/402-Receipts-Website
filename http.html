@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HTTP Components</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HTTP components used in the 402-Receipt Proposed standard.">
+    <link rel="stylesheet" href="/assets/main.css?12">
+    <link rel="shortcut icon" type="image/x-icon" href="/ico/favicon.png">
+  </head>
+  <body>
+    <div id="documentation-page">
+  <header>
+    <a class="text" href="/introduction.html">
+      The Proposed 402-Receipts Standard
+    </a>
+  </header>
+  <div id="columns">
+    <nav>
+      
+      
+        <span class="nav_item">
+          <a href="/introduction.html"><span>Introduction</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/overview.html"><span>Overview</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/parties.html"><span>Parties</span></a>
+        </span>
+        
+        <span class="nav_item selected">
+          <a href="/http.html"><span>HTTP Components</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/receipt_definitions.html"><span>Receipt Definitions</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/receipts.html"><span>Receipts</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/signatures.html"><span>Blind Signatures</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/compression.html"><span>Compression</span></a>
+        </span>
+        
+    </nav>
+    <article>
+    <p>Most of the communication needed by this standard happens in the HTTP headers of requests and responses.</p>
+
+<p>Additionally, the meaning of relevant HTTP Response codes is explained.</p>
+
+<p><strong>All requests and responses involved in this standard should be made over HTTPS connections with valid certificates.</strong> 
+Implementations should decline to follow addresses for insecure HTTP resources, 
+and where possible should redirect HTTP traffic to HTTPS.</p>
+
+<div class="glossary_item" id="glossary_402_response">
+  <div class="glossary_header">Definition</div>
+  <h4><a href="http://402receipts.info/http.html#glossary_402_response" title="permalink to this definition">402 Response Code</a></h4>
+  <p>A 402 HTTPS response indicates that the request should/may be retried with a (valid, applicable) Receipt as described in the <code class="highlighter-rouge">Receipts-Accepts</code> header.
+To the extent possible, 402 should be the “rejection of last resort” in the sense that a 402 response should not be given
+if the request would have failed for other reasons in addition to the absence of a suitable <code class="highlighter-rouge">Receipts-Submission</code> header.</p>
+
+<p>A <code class="highlighter-rouge">Receipts-Accepts</code> header is mandatory for a 402 response.</p>
+
+<p>If a 402 response has a response body, that body should be used as a placeholder for the requested resource, and must be appropriate for such use.
+It should contain human-appropreate messaging explaining the nature of the problem.</p>
+
+  
+</div>
+
+<div class="glossary_item" id="glossary_accepts_header">
+  <div class="glossary_header">Definition</div>
+  <h4><a href="http://402receipts.info/http.html#glossary_accepts_header" title="permalink to this definition">Receipts-Accepts Header</a></h4>
+  <p>The <code class="highlighter-rouge">Receipts-Accepts</code> response header value is
+a <a href="/compression.html">compressed</a> <a href="/receipt_definitions.html">Receipt Definition XML object</a>.
+Any response may have an Accepts header, but they are mandatory for a 402 Response.
+In practice it’s advisable for the <code class="highlighter-rouge">Receipts-Accepts</code> header to be constant
+for a given resource regardless of the rest of the details of the response.</p>
+
+  
+    <div class="glossary_example">Example</div>
+    <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Receipts-Accepts: eNpVkFFugzAQRP97CpQDeBFqWqna+qPKDdoewCIbsIrXFrsROX4MhpD6a954PFovnuni2auPLNUtDCyfh141yQfAa92Yn6/Twb5UFe65GWcjBufZbuFpmgzdXEgDmTYGQFgDJe2VgoXktAcfXEcmcYewuCUgvmMapdCDH/UjteSTijkHNkw6xfFvqUNYk6UG/vWg6mCb96bOB2GGYl9Gkt6+Za+o4rZRdB9gpg0yXvPnxf5+nxCK3K9ciFdWW5v6iLDC1gJ7TdHLw7ycp3U+k9g7Cyp50Q==
+</code></pre></div></div>
+<p>This decompresses to the following xml:</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;definitions</span> <span class="na">xmlns=</span><span class="s">"https://402.TBD"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;definition&gt;</span>
+    <span class="nt">&lt;domain&gt;</span>https://www.example.com/<span class="nt">&lt;/domain&gt;</span>
+    <span class="nt">&lt;item&gt;</span>/path/image.png<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;signers&gt;</span>
+      <span class="nt">&lt;signer&gt;</span>https://receipts.dmn.network/path<span class="nt">&lt;/signer&gt;</span>
+    <span class="nt">&lt;/signers&gt;</span>
+    <span class="nt">&lt;ttl&gt;</span>2720000<span class="nt">&lt;/ttl&gt;</span>
+    <span class="nt">&lt;fresh&gt;</span>60<span class="nt">&lt;/fresh&gt;</span>
+    <span class="nt">&lt;costs&gt;</span>
+      <span class="nt">&lt;cost&gt;</span>
+        <span class="nt">&lt;units&gt;</span>USD<span class="nt">&lt;/units&gt;</span>
+        <span class="nt">&lt;amount&gt;</span>0.05<span class="nt">&lt;/amount&gt;</span>
+      <span class="nt">&lt;/cost&gt;</span>
+    <span class="nt">&lt;/costs&gt;</span>
+  <span class="nt">&lt;/definition&gt;</span>
+<span class="nt">&lt;/definitions&gt;</span>
+</code></pre></div></div>
+
+  
+</div>
+
+<div class="glossary_item" id="glossary_receipt_header">
+  <div class="glossary_header">Definition</div>
+  <h4><a href="http://402receipts.info/http.html#glossary_receipt_header" title="permalink to this definition">Receipts-Receipt Header</a></h4>
+  <p>The <code class="highlighter-rouge">Receipts-Receipt</code> HTTP Request header will contain a compressed Receipt xml object.
+See the <a href="/receipts.html">Receipts</a> page for a more detailed explanation of the contents of a Receipt
+and details of how it will be signed and its textual representation.</p>
+
+  
+</div>
+
+
+    </article>
+  </div>
+</div>
+
+  </body>
+</html>
+

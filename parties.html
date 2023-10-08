@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parties</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Description of the roles of the Client, Host, and Notary.">
+    <link rel="stylesheet" href="/assets/main.css?12">
+    <link rel="shortcut icon" type="image/x-icon" href="/ico/favicon.png">
+  </head>
+  <body>
+    <div id="documentation-page">
+  <header>
+    <a class="text" href="/introduction.html">
+      The Proposed 402-Receipts Standard
+    </a>
+  </header>
+  <div id="columns">
+    <nav>
+      
+      
+        <span class="nav_item">
+          <a href="/introduction.html"><span>Introduction</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/overview.html"><span>Overview</span></a>
+        </span>
+        
+        <span class="nav_item selected">
+          <a href="/parties.html"><span>Parties</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/http.html"><span>HTTP Components</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/receipt_definitions.html"><span>Receipt Definitions</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/receipts.html"><span>Receipts</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/signatures.html"><span>Blind Signatures</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/compression.html"><span>Compression</span></a>
+        </span>
+        
+    </nav>
+    <article>
+    <h2 id="the-client">The Client</h2>
+<p>Because the 402-Receipts system is designed to be used passively by the human user, we mostly speak in terms of the Client (the web-browser).</p>
+
+<div class="glossary_item" id="glossary_client">
+  <div class="glossary_header">Definition</div>
+  <h4><a href="http://402receipts.info/parties.html#glossary_client" title="permalink to this definition">Client</a></h4>
+  <p>The Client is an HTTPS client requesting a resource for which a receipt is required. 
+Typically the Client will be a web browser being used by a human to view websites.</p>
+
+<p>It needs to detect 402 Responses and parse the attached Receipt Definitions
+so that it can obtain the necessary receipts.</p>
+
+<p>It needs to compose the <a href="/receipts.html">Receipt</a> and communicate with the <a href="/parties.html#glossary_notary">Notary</a> to get it signed.
+Finally, it will include the Receipt in the Header of the HTTPS request.</p>
+
+  
+</div>
+
+<p>Existing web browsers don’t have the behavior defined in this standard, so the user will need to install a browser plugin.</p>
+
+<blockquote>
+  <p>Javascript included on pages served may be able to act as the Client; this would be good because it would be easier for some users.
+We need a clear idea of <em>how</em> that can work, and how it can support the same privacy and trustworthiness guarantees
+before we can promise that it will be an option.</p>
+</blockquote>
+
+<div class="glossary_item" id="glossary_wallet">
+  <div class="glossary_header">Definition</div>
+  <h4><a href="http://402receipts.info/parties.html#glossary_wallet" title="permalink to this definition">Wallet</a></h4>
+  <p>A wallet is a (presumably encrypted, etc) storage location separate from the Client where receipts owned by a user can be stored for reuse.
+This is necessary specifically because users will want to reuse receipts across devices.</p>
+
+  
+</div>
+
+<p>It’s desirable to include the communication between the Wallet and the Client in this standard,
+firstly because independently created Clients (for example a Firefox plugin and an Android app) should be able to use a common Wallet,
+and secondly because a safe standard for Wallet communication will be critical to an in-page javascript Client implementation.</p>
+
+<h2 id="the-host">The Host</h2>
+<p>The Host is the computer (the server) which provides the web pages to the Client. 
+The Host is <em>not exactly just</em> “the website”, although this is an OK layperson’s approximation.</p>
+
+<div class="glossary_item" id="glossary_host">
+  <div class="glossary_header">Definition</div>
+  <h4><a href="http://402receipts.info/parties.html#glossary_host" title="permalink to this definition">Host</a></h4>
+  <p>The Host is, by definition, the server receiving the HTTPS request with the <code class="highlighter-rouge">Receipts-Receipt</code> header.
+This standard specifies further responsibilities for the Host leading up to such a request and in how such requests should be handled.</p>
+
+<p>It is the Host’s responsibility to validate incoming receipts; 
+they must accept any receipt satisfying the <a href="/receipt_definitions.html">Receipt Definition</a> published for the given resource.
+If appropriate Receipts are provided, then the Host will respond like any other HTTPS host.
+If the Receipt is missing, inappropriate, or invalid, then the the Host will give an informative <a href="/http.html#glossary_402_response">402 Response</a>.</p>
+
+  
+</div>
+
+<p>We assume that the Host’s address will match the <code class="highlighter-rouge">domain</code> (and often <code class="highlighter-rouge">item</code>) of the Bare Receipt, and this may be enforced by the Client or Notary.</p>
+
+<p>A fully static host will not be suitable for this standard because validating receipts and saving them for
+future reimbursement is critical to the process.
+At absolute minimum the host will need to be able to strip the identifying key and signature and forward the receipt and Notary signature to the Notary;
+otherwise the Notary would never know to pay the Host.<br />
+In practice, the Host should also be obliged to validate the receipt as part of request handling, and the Host <strong>should not</strong> forward the receipt until handling of the HTTPS request in question has finished. Submitting receipts to the Notary in batches (for example, every hour) can (in conjunction with some defensive behavior on the part of the Clients) prevent deanonymization of Receipts by timing analysis.</p>
+
+<h2 id="the-notary">The Notary</h2>
+<p>The Notary is a third party, analogous to a traditional monetization platform but fundamentally less powerful. The Notary sells Receipts to Clients; the Receipts are used to access websites.</p>
+
+<div class="glossary_item" id="glossary_notary">
+  <div class="glossary_header">Definition</div>
+  <h4><a href="http://402receipts.info/parties.html#glossary_notary" title="permalink to this definition">Notary</a></h4>
+  <p>The Notary signs the receipt.<br />
+It is up to the parties involved to agree in advance what is promised when a receipt is signed; 
+here we assume that the Notary has collected the money in question from the Client and will forward those funds to the Host by some outside channel. 
+In this sense the “Notary” is properly thought of as a “Broker”.</p>
+
+  
+</div>
+
+<p>Of course it’s the Notary’s responsibility to make themselves valuable to the other parties,
+but it’s illuminating to explain here some of the ways they might do that.</p>
+
+<ul>
+  <li>The Notary will generally relieve the Host of payment processing complexity, and account-management more generally.</li>
+  <li>When a Host joins a Notary’s network, they hope to receive payments from a wide audience of consumers; the Host can focus on <em>traffic</em> and <em>audience retention</em> instead of a <em>sales funnel</em>.</li>
+  <li>The Notary can protect the Client from abusive Hosts in various ways, including proactive monitoring of member Hosts and post-hoc remediation. (Point-of-sale protections are generally not feasible for the Notary, as receipt signatures are issued blindly. Such protections can be built into the <a href="/client.html">Wallet</a>.)</li>
+  <li>For a Client to set up an account with a given Notary generally constitutes pre-authorization of certain kinds of payments for certain kinds of resources. In this sense Notaries act like “channels” to which a user can subscribe.</li>
+</ul>
+
+<p>In practice, we only anticipate two kinds of Notaries.</p>
+
+<ul>
+  <li>A Host could be their own Notary. This could accomplish any of the same functionalities as existing paywalls offer, although the standardized machine interface would enable smoother user-experiences.</li>
+  <li><strong>A Notary can act as a network, channel, buyer’s club, or federation.</strong> Many Hosts and many Clients are assumed to have prior arrangements (accounts) with a given Notary; this is the Notary’s network. As long as a Host and Client have a network in common, payment for resources can typically proceed <em>automatically</em>.</li>
+</ul>
+
+<p>Notaries with larger networks will obviously have an advantage toward attracting new members of both kinds.<br />
+On the one hand, the variety of use-cases this standard can accommodate, and the variety of legal, technical, and business paradigms people operate in, will likely ensure a plurality of Notaries. On the other hand, it is still desirable to include protections <em>against the Notaries</em>. Consumers are presumed to have given their payment processing information (a debit card, for example) directly to the Notary, but privacy of their data can still be protected by insisting on a blind-signature scheme, and by proper design of Wallets and Clients. Producers (Hosts) can best be protected by making sure self-Notarization is a viable option (although this does put the onus of payment processing back in their lap).</p>
+
+<div class="glossary_item" id="glossary_cannonical_url">
+  <div class="glossary_header">Definition</div>
+  <h4><a href="http://402receipts.info/parties.html#glossary_cannonical_url" title="permalink to this definition">Cannonical URL</a></h4>
+  <p>A Notary is required to expose a canonical URL endpoint by which they can be identified, and which is <em>sufficient</em> to interact with that Notary.</p>
+
+<ul>
+  <li>A GET request to the canonical URL should return an HTML page which a human could use to complete a purchase and obtain a receipt.
+In practice this page would probably also prompt the user to open an account with the Notary.
+<code class="highlighter-rouge">TODO: specify how a receipt could be passed into this page from the URL hash for blind-signing
+and how the Notary's signature would be communicated back to the Client.</code></li>
+  <li>A POST request to the canonical URL is used to obtain a Notary Signature;
+a signature with a pre-approved Client’s private key should be sufficient authentication for this.
+<code class="highlighter-rouge">TODO: the details of this process will be filled in as the cryptographic details of receipt signing are determined.</code></li>
+  <li>A PUT request to the canonical URL is used by the Host to redeem receipts, in batches.</li>
+</ul>
+
+  
+</div>
+
+
+    </article>
+  </div>
+</div>
+
+  </body>
+</html>
+

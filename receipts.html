@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Receipts</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Receipt schema for The 402-Receipt Proposed standard.">
+    <link rel="stylesheet" href="/assets/main.css?12">
+    <link rel="shortcut icon" type="image/x-icon" href="/ico/favicon.png">
+  </head>
+  <body>
+    <div id="documentation-page">
+  <header>
+    <a class="text" href="/introduction.html">
+      The Proposed 402-Receipts Standard
+    </a>
+  </header>
+  <div id="columns">
+    <nav>
+      
+      
+        <span class="nav_item">
+          <a href="/introduction.html"><span>Introduction</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/overview.html"><span>Overview</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/parties.html"><span>Parties</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/http.html"><span>HTTP Components</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/receipt_definitions.html"><span>Receipt Definitions</span></a>
+        </span>
+        
+        <span class="nav_item selected">
+          <a href="/receipts.html"><span>Receipts</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/signatures.html"><span>Blind Signatures</span></a>
+        </span>
+        
+        <span class="nav_item">
+          <a href="/compression.html"><span>Compression</span></a>
+        </span>
+        
+    </nav>
+    <article>
+    <p>A Receipt is a message specifying that someone paid for access to a resource, or should otherwise be given access to the resource.</p>
+
+<blockquote>
+  <p>There are some practical limitations of the readily available cryptographic options, which are unlikely to be fixed in time for version 0.<br />
+In particular, the use of a <em>fully</em> blind signature means that, in practice, a given Notary can only issue Receipts for a single amount.
+Like other performance issues, we <em>do</em> plan to address this problem, but useable systems don’t need to wait for it.</p>
+</blockquote>
+
+<div class="glossary_item" id="glossary_receipt">
+  <div class="glossary_header">Definition</div>
+  <h4><a href="http://402receipts.info/receipts.html#glossary_receipt" title="permalink to this definition">Receipt</a></h4>
+  <p>A <strong>Receipt</strong> is an XML object describing a particular payment for a particular resource.
+The XML document is always expressed as a list of Receipts; the XML root is <code class="highlighter-rouge">&lt;receipts&gt;</code>.
+Receipts are uniquely identified by a UUID.</p>
+
+  
+    <div class="glossary_example">Example</div>
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;receipts&gt;</span>
+  <span class="nt">&lt;receipt</span> <span class="na">xmlns=</span><span class="s">"https://402.TBD"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;domain&gt;</span>https://www.example.com/<span class="nt">&lt;/domain&gt;</span>
+    <span class="nt">&lt;item&gt;</span>/path/image.png<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;signer&gt;</span>https://receipts.dmn.network/path<span class="nt">&lt;/signer&gt;</span>
+    <span class="nt">&lt;time&gt;</span>1557944008<span class="nt">&lt;/time&gt;</span>
+    <span class="nt">&lt;cost&gt;</span>
+      <span class="nt">&lt;units&gt;</span>USD<span class="nt">&lt;/units&gt;</span>
+      <span class="nt">&lt;amount&gt;</span>0.05<span class="nt">&lt;/amount&gt;</span>
+    <span class="nt">&lt;/cost&gt;</span>
+    <span class="nt">&lt;uuid&gt;</span>bf9c1367-9589-41ff-8f74-134877341cce<span class="nt">&lt;/uuid&gt;</span>
+    <span class="nt">&lt;signature&gt;</span>1234567890ABCDEF<span class="nt">&lt;/signature&gt;</span>
+  <span class="nt">&lt;/receipt&gt;</span>
+<span class="nt">&lt;/receipts&gt;</span>
+</code></pre></div></div>
+
+  
+</div>
+
+<div class="glossary_item" id="glossary_notary_signature">
+  <div class="glossary_header">Definition</div>
+  <h4><a href="http://402receipts.info/receipts.html#glossary_notary_signature" title="permalink to this definition">Notary Signature</a></h4>
+  <p>The Notary Signature is the <code class="highlighter-rouge">&lt;signature&gt;</code> tag within a Receipt.
+It’s an <a href="/signatures.html">RSA Blind Signature</a> of the contents of the Receipt, seriallized as described below.</p>
+
+<p>The subject of the blind signature is the concatination, in this order, of the following key-value pairs:<br />
+<code class="highlighter-rouge">domain</code>, <code class="highlighter-rouge">item</code>, <code class="highlighter-rouge">signer</code>, <code class="highlighter-rouge">time</code>, <code class="highlighter-rouge">units</code> <em>if there is one</em>, <code class="highlighter-rouge">amount</code> <em>if there is one</em>, <code class="highlighter-rouge">plan</code> <em>if there is one</em>, and <code class="highlighter-rouge">uuid</code>.<br />
+String values should have any double-quote characters removed, and should be enclosed in double-quotes.<br />
+<code class="highlighter-rouge">time</code> should use the normal decimal integer representation: no leading zeros, sign, decimal-point, or thousands-markers.<br />
+<code class="highlighter-rouge">amount</code> should use <em>signed</em> decimal representation: no <em>extra</em> leading or trailing zeros, <code class="highlighter-rouge">.</code> decimal-point, no thousands-markers.<br />
+<code class="highlighter-rouge">uuid</code> should use just the lower-case hex bytes without braces, dashes, or quotes.<br />
+This will be hashed and signed as a utf-8 string.</p>
+
+<p>The public key for a given Notary, identified by the Receipt’s <code class="highlighter-rouge">signer</code> field, is assumed to be known by the Client and Host.</p>
+
+  
+    <div class="glossary_example">Example</div>
+    <p>Given an abstract receipt such as</p>
+
+<ul>
+  <li>domain: <code class="highlighter-rouge">https://www.example.com/</code></li>
+  <li>item: <code class="highlighter-rouge">This is "technically" a valid item string.</code></li>
+  <li>signer: <code class="highlighter-rouge">https://receipts.dmn.network/path</code></li>
+  <li>time: 1557944008</li>
+  <li>units: <code class="highlighter-rouge">USD</code></li>
+  <li>amount: 5.0000001×10^-6</li>
+  <li>uuid: {{bf9c1367-9589-41ff-8f74-134877341cce}}</li>
+</ul>
+
+<p>one would serialize it as</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>domain"https://www.example.com/"item"This is technically a valid item string."signer"https://receipts.dmn.network/path"time1557944008units"USD"amount0.0000050000001uuidbf9c1367958941ff8f74134877341cce
+</code></pre></div></div>
+
+<p>which might yeild a Notary Signature like</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a659953eaff5e9585445f4fccb454dd9e5cc3b124aadada5651746b2ab0ab222f0c0a29a4473535e08f1f2eedbff572c0b263ed7f984d5fb5a5e019f53a93ef1f3eccf3d54c4d605cfe3b45cae2f89e4f1cf7808678f0c9a48b0bea576b6bd67d462a740b79e8eb242b047e5efd02f13fb233c3552ee6085fe60c66929610be7b4de0831ca1bb202febd58b04d6fcb13a060b2617da6b2dc2a03f09e1d2ada1d9b3449fe6ce5ef13f8e2a4e0b4150498f980877e3265b78cb18716167925011812488bf03754d52b92b9cf885c8f5f42dc4ba2b7ab47702f68a4d6d49f555e97698d7bad096398cffd33e5443f48dc74c5edcf8af59474b2808c7f7b846052bh
+</code></pre></div></div>
+
+<p>to be used in the Receipt XML.</p>
+
+  
+</div>
+
+<blockquote>
+  <p>Systems to prevent sharing of receipts are desired, but not critical for version 0.</p>
+</blockquote>
+
+<h2 id="uuid-details">UUID Details</h2>
+<p>It’s the <a href="http://402receipts.info/parties.html#glossary_client" title="The Client is an HTTPS client requesting a resource for which a receipt is required.  Typically the ...">Client’s</a>
+ responsibility to generate a random version-4 UUID.
+Use of other UUID types may result in identifiers that are traceable back to the Client’s computer, or may risk collisions.
+Uniqueness is only enforceable on the signer/domain/UUID <em>triplet</em>;
+the global uniqueness of UUID’s can’t be relied upon here because a malicious client could deliberately violate it.</p>
+
+<h2 id="bundled-receipts">Bundled Receipts</h2>
+
+<p>The <code class="highlighter-rouge">receipts</code> XML object is a <em>list</em> because situations are likely in which a user will want to submit multiple
+receipts at once.
+For example, a website might give a <a href="http://402receipts.info/receipt_definitions.html#glossary_receipt_definition" title="A Receipt Definition is an XML object which tells a Client what receipts would be accepted in order ...">Receipt Definition</a>
+ to the effect of 
+<em>“Pages are $0.05 each, up to $3.00/month.”</em>. 
+Once a customer had viewed enough pages that their receipts for that month totaled $3.00, 
+their Client would begin submitting bundled Receipts instead of buying a receipt for each page.</p>
+
+<p>The above configuration would be accomplished by serving two Receipt Definitions with each page;
+the first ($0.05) would specify the page as the <code class="highlighter-rouge">item</code>, and the second ($3.00) would have a blank (wildcard) <code class="highlighter-rouge">item</code>
+field.</p>
+
+<h2 id="schema">Schema</h2>
+
+<table>
+  <caption>
+    <div><p>XML Schema for Receipt XML objects.</p>
+</div>
+    <div>Namespace: <span class="xsd-table-namespace">https://402.TBD</span></div>
+    <div>
+      <a href="http://402receipts.info/402receipts_receipt.xsd" target="_blank" title="Open the raw XSD in a new tab">
+        The XSD itself is here.
+      </a>
+    </div>
+  </caption>
+  <thead>
+    <tr>
+      <th class="xsd_tag_header">Tag</th>
+      <th class="xsd_description_header">Description</th>
+      <th class="xsd_type_header">Children/<em>Type</em></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th colspan="3">Root elements:</th>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">receipts</code></td>
+      <td><p>The root element of an XML document containing a list of Receipts.</p>
+</td>
+      <td>see below</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <th colspan="3">Element types:</th>
+    </tr>
+    <tr id="xsd_row_receipts">
+      <td><code class="highlighter-rouge">receipts</code></td>
+      <td><p>A list of Receipts.</p>
+</td>
+      <td>
+        
+          List of <code class="highlighter-rouge">receipt</code>
+        
+      </td>
+    </tr><tr id="xsd_row_receipt">
+      <td><code class="highlighter-rouge">receipt</code></td>
+      <td><p>A Receipt object, denoting that someone has paid for access to an item of content or a family of content.</p>
+</td>
+      <td>
+        
+          
+            <ul class="xsd_child_list">
+              <li><code class="highlighter-rouge">domain</code></li>
+            
+              <li><code class="highlighter-rouge">item</code></li>
+            
+              <li><code class="highlighter-rouge">signer</code></li>
+            
+              <li><code class="highlighter-rouge">time</code></li>
+            
+              <li><code class="highlighter-rouge">cost</code></li>
+            
+              <li><code class="highlighter-rouge">uuid</code></li>
+            
+              <li><code class="highlighter-rouge">signature</code></li>
+            </ul>
+            
+          
+        
+      </td>
+    </tr><tr id="xsd_row_domain">
+      <td><code class="highlighter-rouge">domain</code></td>
+      <td><p>Must match the <code class="highlighter-rouge">domain</code> from the Receipt Definition which this receipt is fulfilling.</p>
+</td>
+      <td>
+        
+          <em>string</em>
+          <ul class="xsd_restriction_list"></ul>
+        
+      </td>
+    </tr><tr id="xsd_row_item">
+      <td><code class="highlighter-rouge">item</code></td>
+      <td><p>Must match the <code class="highlighter-rouge">item</code> from the Receipt Definition which this receipt is fulfilling.</p>
+</td>
+      <td>
+        
+          <em>string</em>
+          <ul class="xsd_restriction_list"></ul>
+        
+      </td>
+    </tr><tr id="xsd_row_signer">
+      <td><code class="highlighter-rouge">signer</code></td>
+      <td><p>The absolute canonical HTTPS url identifying the Notary who issued the <code class="highlighter-rouge">signature</code>. Obviously this must match one of the <code class="highlighter-rouge">signer</code>s in the Receipt Definition.</p>
+</td>
+      <td>
+        
+          <em>anyURI</em>
+          <ul class="xsd_restriction_list"></ul>
+        
+      </td>
+    </tr><tr id="xsd_row_time">
+      <td><code class="highlighter-rouge">time</code></td>
+      <td><p>The Unix Epoch time when the client says the transaction happened.</p>
+</td>
+      <td>
+        
+          <em>unsignedInt</em>
+          <ul class="xsd_restriction_list"></ul>
+        
+      </td>
+    </tr><tr id="xsd_row_cost">
+      <td><code class="highlighter-rouge">cost</code></td>
+      <td><p>Usually an expression of monetary value, which must match, total to, or exceed the <code class="highlighter-rouge">cost</code> from the Receipt Definition. While the actual charging of money is left to the Notery’s discretion, this is generally assumed to be the amount the user <em>paid</em> for the Receipt. <strong>Because of the cryptographic limitations of the current version of this protocol, Noteries will only honor Receipts for a single set amount.</strong></p>
+</td>
+      <td>
+        
+          
+            <ul class="xsd_child_list">
+              <li><code class="highlighter-rouge">units</code></li>
+            
+              <li><code class="highlighter-rouge">amount</code></li>
+            </ul>
+            <strong class="xsd_child_list">OR</strong>
+          
+            <ul class="xsd_child_list">
+              <li><code class="highlighter-rouge">plan</code></li>
+            </ul>
+            
+          
+        
+      </td>
+    </tr><tr id="xsd_row_units">
+      <td><code class="highlighter-rouge">units</code></td>
+      <td><p>A currency code. <a href="https://en.wikipedia.org/wiki/ISO_4217">ISO4217</a> codes are recommended.</p>
+</td>
+      <td>
+        
+          <em>string</em>
+          <ul class="xsd_restriction_list"></ul>
+        
+      </td>
+    </tr><tr id="xsd_row_amount">
+      <td><code class="highlighter-rouge">amount</code></td>
+      <td><p>A decimal number amount of that currency’s major units. For example, six US cents would be <code class="highlighter-rouge">0.06</code>, not <code class="highlighter-rouge">6</code>.</p>
+</td>
+      <td>
+        
+          <em>decimal</em>
+          <ul class="xsd_restriction_list"></ul>
+        
+      </td>
+    </tr><tr id="xsd_row_plan">
+      <td><code class="highlighter-rouge">plan</code></td>
+      <td><p>An identifier which is assumed to mean something to the various parties involved.</p>
+</td>
+      <td>
+        
+          <em>string</em>
+          <ul class="xsd_restriction_list"></ul>
+        
+      </td>
+    </tr><tr id="xsd_row_uuid">
+      <td><code class="highlighter-rouge">uuid</code></td>
+      <td><p>An ID for a Bare-Receipt. This may be used to prevent reuse of a receipt by multiple parties (with caveats). Use of values other than properly-generated V4 UUIDs is unsafe.</p>
+</td>
+      <td>
+        
+          <em>string</em>
+          <ul class="xsd_restriction_list">
+            <li>pattern: \{?([0-9a-fA-F]{4}-?){8}\}?</li>
+          </ul>
+        
+      </td>
+    </tr><tr id="xsd_row_signature">
+      <td><code class="highlighter-rouge">signature</code></td>
+      <td><p>The Notary Signature of the receipt.</p>
+</td>
+      <td>
+        
+          <em>hexBinary</em>
+          <ul class="xsd_restriction_list"></ul>
+        
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+    </article>
+  </div>
+</div>
+
+  </body>
+</html>
+

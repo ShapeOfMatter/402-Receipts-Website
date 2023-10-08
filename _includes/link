@@ -1,1 +1,0 @@
-<a href="{{ include.s.path | absolute_url }}" title="{{ include.s.meaning | slice: 0, 100 }}...">{{ include.c | default: include.s.subject }}</a>

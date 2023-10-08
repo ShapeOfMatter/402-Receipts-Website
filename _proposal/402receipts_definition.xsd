@@ -1,9 +1,0 @@
----
-title: XML Schema Document for 402-Receipts
-date: 2019-01-11 12:00:00 Z
-permalink: "/402receipts.xsd"
-description: The XML Schema Document for 402-Receipts
-layout: none
----
-
-{% include xsd.liquid xsd=site.data.402_receipts_xsd %}

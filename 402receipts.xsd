@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace=""
+           xmlns=""
+          elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:documentation>
+      
+    </xs:documentation>
+  </xs:annotation>
+</xs:schema>
+
+
